@@ -1,33 +1,3 @@
-% !TeX program = pdflatex
-% !TeX spellcheck = en_US
-% !TeX encoding = UTF-8
-
-% update
-% v1.13 - 2020-01-15
-% - Tanja: change the style.tex: define Black as a color and use it to replace DarkRed (except on the title page)
-% - Tanja: change the the titlepage once more 
-% - Tanja: change the color code for DarkRed to match the current TU logo sytle
-% v1.12 - 2020-01-02
-% - Tanja: add new titlepage design and replace all logos with the new one
-% v1.11 - 2018-10-15
-% - Felix: use Bibtex instead of Biblatex
-% v1.10 - 2017-05-30
-% - Erik: Refactor the file structure of the front pages
-% - Erik: Fix double bibliography entry
-% v1.9 - 2017-02-03
-% - Dirk: fixed warning: Underfull \hbox (badness 10000) in paragraph main.tex
-% - Dirk: fixed warning: "Data encoding is UTF8" -> style.tex 0.1.8
-% v1.8 - 2017-02-02
-% - Dirk: replaced titlesec package by KOMA-script commands.-> style.tex v0.1.7
-% v1.7 - 2014-11-18
-% - bib fixes: now using biber instead of bibtex (thanks felix)
-% - compile now with pdflatex -> biber -> pdflatex
-% v1.6 - 2013-05-13
-% - bibliography headers fixed - thanx lorenz lehmann
-% - high quality titlepage - thanx thomas graf
-% - removed separation of online and offline references -> style 1.4a
-% v1.5 - 2013-01-16
-
 \documentclass[oneside,11pt,titlepage,ngerman,a4paper,bibliography=totocnumbered,listof=numbered]{scrbook}
 \usepackage[english]{babel}
 \sloppy
@@ -44,7 +14,7 @@ TCP
 %make readable references
 
 \usepackage[pdftex,pdfpagelabels=true]{hyperref}
-\usepackage{apacite}
+% \usepackage{apacite}
 \definecolor{bblue}{HTML}{4F81BD}
 \definecolor{rred}{HTML}{C0504D}
 \definecolor{ggreen}{HTML}{9BBB59}
@@ -69,7 +39,7 @@ TCP
 
 
 \begin{document}
-\selectlanguage{ngerman}
+\selectlanguage{english}
 
 \setstretch{1.25}
 %--------------------------------------------------------------
@@ -79,9 +49,9 @@ TCP
 
 \input{content/00_frontpages/00_frontpage}
 
-%\input{content/00_frontpages/02_acknowledgments}
-%\input{content/00_frontpages/03_abstract}					% EN Abstract
-%\input{content/00_frontpages/04_zusammenfassung}	% DE Abstract
+% \input{content/00_frontpages/02_acknowledgments}
+\input{content/00_frontpages/03_abstract}					% EN Abstract
+\input{content/00_frontpages/04_zusammenfassung}	% DE Abstract
 
 \tableofcontents{}
 \listoffigures{}
@@ -100,8 +70,8 @@ TCP
 %\part{}				% optional: use parts to structure your thesis
 \input{content/01_introduction}
 \input{content/02_related_work}
-%\input{content/03_concept_and_design}
-%\input{content/04_implementation}
+\input{content/03_concept_and_design}
+\input{content/04_implementation}
 \input{content/05_evaluation}
 \input{content/06_conclusion}
 
@@ -111,16 +81,14 @@ TCP
 \backmatter
 
 % Lists of tables and figures
-%\listoftables
+\listoftables
 
 
 % Bibliography
 \setwidesite{}						% Set page to be wider for bibliography
 \markboth{Bibliography}{bibliography}
 \label{cha:bibliography}
-%\bibliographystyle{IEEEtran}
-\bibliographystyle{apacite}
-%\bibliographystyle{apalike}
+\bibliographystyle{IEEEtran}
 \bibliography{bibliography.bib}
 \input{content/00_frontpages/01_declaration}
 
