@@ -1,0 +1,48 @@
+\chapter{DevOps Umsetzungen bei Unternehmen}
+\label{cha:evaluation}
+
+Im Folgenden möchten wir verschiedene Aspekte von Aspekte von DevOps bei Netflix und Meta betrachten. Beide Unternehmen sind UNICORN-Companies im informationstechnischen Bereich und setzen sich seit langer Zeit mit Ansätzen von DevOps auseinander und implementieren diese auch.
+
+\section{Netflix}
+Netflix ist ein abonnementbasierter Streaming-Dienst, der es Mitgliedern ermöglicht, Filme und Serien ohne Werbeunterbrechungen auf jedem Gerät mit Internetanschluss anzusehen  \cite{Netflix}. Obwohl Netflix ein Unterhaltungsunternehmen ist, hat es viele führende Technologieunternehmen in Bezug auf technische Innovationen hinter sich gelassen. Mit seiner einzigartigen Videostreaming-Anwendung hat Netflix die Welt der Technologie mit seinen erstklassigen technischen Bemühungen, seiner Kultur und seiner Produktentwicklung im Laufe der Jahre erheblich beeinflusst. Netflix hat sich in den letzten Jahren mit innovativer Technik und agilen Methoden in der Softwareentwicklung bewehrt.
+
+\subsection{Daten \& Zahlen}
+Wenn das Unternehmen aus einem technischen Blickwinkel betrachtet wird, können auf der rudimentärsten Ebene drei Komponenten identifiziert werden. 
+
+\begin{itemize}
+	\item Rechen- und Speicherleistung, verwaltet durch Amazon Web Services (AWS)
+	\item UI \& kleine Assets erstellt mit Akamai
+	\item Netflix Open Connect - Ein speziell entwickeltes Video Content Decryption Module (CDM)
+\end{itemize}
+
+Diese drei Komponenten werden durch hunderte Micro-Services in der AWS Cloud abgebildet. Das gesamte System unterliegt tausenden an Änderungen, welche jeden Tag in die Produktionsumgebung deployed werden. Um der Last der Millionen Kunden stand halten zu können, benötigt Netflix zen tausende virtuelle Instanzen ihrer Services. Diese gewaltigen Mengen an Daten und an Funktionalität wird jedoch nur durch ungefähr siebzig Betriebsingenieure verwaltet. Alleine diese Zahlen zeigen die erheblichen Vorteile die das DevOps Paradigma mit sich bringt \cite{marini2019qualitative, tonse2018scalable, Hiren}. 
+
+\subsection{Netflix in der Cloud}
+
+Einer der wichtigsten Meilensteine für Netflix war der Umzug in die Cloud. Diese Entscheidung hat das massive Wachstum und die Automatisierungsmöglichkeiten erst ins rollen gebracht. Dabei begann alles mit dem größten Ausfall in der Geschichte von Netflix, als 2008 eine massive Datenbankstörung auftrat und das Unternehmen drei Tage lang keine DVDs an seine Nutzer verschicken konnte. Zu dieser Zeit hatte Netflix rund 8,4 Millionen Nutzer, von denen ein Drittel von dem Ausfall betroffen war. Dies zwang Netflix dazu, in die Cloud zu wechseln und seine Infrastruktur zu überarbeiten. Netflix entschied sich für AWS als Cloud-Partner und brauchte etwa sieben Jahre, um die Umstellung auf die Cloud abzuschließen \cite{marini2019qualitative, Hiren}.
+
+Bei diesem Umzug wurde das alte System jedoch nicht behalten, sondern von Grund auf neu implementiert und für die AWS Infrastruktur optimiert. Einer der wichtigsten Faktoren ist dabei das erstellen einzelner Microservices gewesen, welche autonom auf in der Cloud liegen. Weitere wichtige Faktoren, welche DevOps perfekt unterstützen sind folgende \cite{Hiren}:
+
+\begin{itemize}
+	\item Denormalisiertes Datenmodell mit NoSQL-Datenbanken 
+	\item Ermöglichte Teams bei Netflix eine lose Kopplung
+	\item Ermöglichte es den Teams, Änderungen in der für sie angenehmen Geschwindigkeit zu entwickeln und voranzutreiben
+	\item Zentralisierte Freigabekoordination
+	\item Mehrwöchige Hardware-Bereitstellungszyklen führten zu kontinuierlicher Bereitstellung
+	\item Ingenieurteams trafen unabhängige Entscheidungen mithilfe von Self-Service-Tools
+\end{itemize}
+
+Es ist klar zu erkennen, das Netflix mit diesen Änderungen die agile Softwareentwicklung bei sich im Unternehmen umsetzten wollte. Auch hat diese Aufstellung den DevOps Kerngedanken, der Zusammenführung von Entwicklern und Operatoren im Unternehmen gefestigt. Außerdem ist zu erkennen, dass die Ingenieure bereits in 2008 die Vorteile einer voll automatisierteren Deploymentpipeline erkannt und dabei auf die neuste und beste Technik gesetzt haben. Durch diesen Wechsel auf das DevOps Paradigma und vor allem die volle Automatisierung ist es ihnen möglich gewesen eine sehr flexible, sichere und strukturierte Infrastruktur aufzubauen, welche immer mit den aktuellen Softwareentwicklungstrends mitgehen kann.
+
+\section{Meta Platforms}
+
+Ein weiteres interessantes IT Unternehmen ist Meta Platforms, Inc. (auch bekannt als Meta; zuvor Facebook Inc. \cite{Petereit}), ein Technologieunternehmen mit Sitz in Menlo Park, Kalifornien. Zu dem Unternehmen gehören unter anderem die sozialen Netzwerke Facebook und Instagram, die Instant-Messaging-Apps WhatsApp und Messenger sowie Oculus, ein Hersteller von Virtual-Reality-Technologie. Meta beschäftigt um die 90 tausend Mitarbeiter und organisiert seine Entwicklungsteams agil und nach DevOps-Manier. Außerdem wird ein großer Wert auf eine voll automatisierte Deployment-Pipeline gelegt \cite{Team}.
+
+\subsection{Deployment Verhalten}
+Metas Entwicklungsteams arbeiten aber oft unabhängig an unabhängigen Problemen. Kleine Anpassungen kommen dabei regelmäßig vor, insbesondere angesichts der flexiblen Online-Geschäftsstrategie von Facebook. Den Entwicklern ist es wichtig viele neue Features und Optionen in kurzer Zeit zu implementieren. Des Weiterem gibt setzt Meta auf ein kontinuierliches Deployment und gibt jede Änderung sofort an die Kunden weiter. Das führt dazu, dass jede Woche eine neue Version des Produktionscodes veröffentlicht wird. Das funktioniert bei Meta so, dass alle Änderungen die an den Services in der Woche anfallen jeden Sonntag einen automatischen Regressiontest durchwandern und im Anschluss am kommenden Dienstag freigegeben werden. Dabei schätzt das Release-Engineering-Team das Risiko der Änderungen ein. Dieses leitet sich primär vom Umfang der Änderungen und der Menge der Diskussionen während der Code-Review ab. Um den Release der Änderungen der Anwendung besser steuern zu können setzt Meta auf ein Programm namens "Gatekeeper". Diese Technologie hilft bei der Verteilung von Aktualisierungen an die einzelnen Verbraucher, so dass die Änderungen, wenn sie nicht erfolgreich sind, wieder rückgängig gemacht werden können. Von einem technischen Standpunkt verhält sich Meta gemäß des DevOps Paradigmas und setzt auf viele Releases und ein schnelles Deployment \cite{jameslee}.
+
+\subsection{Code Eigentum}
+Ein weiterer positiver Aspekt von DevOps ist, dass Entwickler auf noch im Nachhinein verantwortlich für ihren Code sind. So sind die Facebook-Entwickler persönlich für den Code verantwortlich. Der Entwickler muss während des gesamten Entwicklungsprozesses mitarbeiten. Von der Einreichung des Codes über das Testen bis zur Unterstützung der Produktion begleitet er den Prozess. Die Entwickler helfen bei der betrieblichen Nutzung ihrer Software, die als DevOps bezeichnet wird. Dadurch entsteht ein Anreiz, guten und wartbaren Code zu entwickeln. Außerdem hat der Entwickler durch diesen Prozess ein besseres Verständnis für die Anforderungen an das System und kann besser Einschätzen wie kritisch eine Änderung ist \cite{jameslee}.
+
+\subsection{Tests}
+Meta achtet darauf eine automatisierte Testumgebung zu implementieren. Auch besitzt Meta kein eigenes unabhängiges Testteam, sondern setzt auf viele Code-Reviews, um die Code-Qualität gewährleisten zu können. Dabei wird in zweierlei Hinsichten gelernt: Der Autor des Codes stellt eine gute Qualität sicher, und der Prüfer lernt durch die Bewertung anderer Skripte neue Fähigkeiten. Außerdem sind die Entwickler dafür zuständig ihre eigenen Unit-Tests, Regressionstests und automatisierten Tests zu implementieren. Unter anderem ist das Feedback der Kunden für Meta sehr wichtig. Deshalb führen sie A/B-Tests und Live-Experimente durch \cite{jameslee}.
