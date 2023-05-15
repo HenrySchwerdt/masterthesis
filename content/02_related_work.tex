@@ -45,7 +45,7 @@ the use of web trackers and holding large companies accountable for their use.
 
 
 In addition to the work of Englehardt et al. and Schelter and Kunegis,
-several other studies have expressed privacy concerns about web trackers [3-9].
+several other studies have expressed privacy concerns about web trackers \cite{bujlow2017survey,chaabane2012big}.
 For instance, Mayer and Mitchell [3] discuss the policy and technology 
 challenges related to third-party web tracking, and argue that user consent
 and control over personal data are critical. Leon and Shin [4] highlight the
@@ -76,17 +76,94 @@ protect user privacy. It is crucial that policymakers, tech companies,
 and individuals take action to regulate the use of web trackers
 and ensure that user data is protected from unauthorized access and use.
 
-Englehardt, S., et al. (2016). Online tracking: A 1-million-site measurement and analysis. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 1388-1401).
-Schelter, S., & Kunegis, J. (2018). Large-scale analysis of web trackers with OpenWPM. Proceedings on Privacy Enhancing Technologies, 2018(2), 82-97.
-Mayer, J., & Mitchell, J. C. (2012). Third-party web tracking: Policy and technology. 2012 IEEE Symposium on Security and Privacy (pp. 413-427).
-Leon, P. G., & Shin, E. C. (2014). Privacy threats through ultrasonic side channels on mobile devices. IEEE Security & Privacy, 12(5), 111-113.
-Bonneau, J., et al. (2012). The post- password world: Towards a passwordless future. IEEE Security & Privacy, 10(1), 62-65.
-Nikiforakis, N., et al. (2012). Cookieless monster: Exploring the ecosystem of web-based device fingerprinting. In Proceedings of the 2012 ACM conference on Computer and communications security (pp. 541-552).
-Olejnik, L., et al. (2014). Do not track and its implications for online privacy and advertising. Journal of Business Research, 67(9), 1670-1679.
-Acar, G., et al. (2014). Fingerprinting blank paper using commodity scanners. Proceedings on Privacy Enhancing Technologies, 2014(1), 82-102.
-Acar, G., et al. (2013). Web-based attacks on host-proof encrypted storage. In Proceedings of the 22nd international conference on World Wide Web (pp. 309-320).
-Libert, T., et al. (2018). Privacy implications of encrypted DNS traffic. Proceedings on Privacy Enhancing Technologies, 2018(3), 166-184.
+
+% Englehardt, S., et al. (2016). Online tracking: A 1-million-site measurement and analysis. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 1388-1401).
+% Schelter, S., & Kunegis, J. (2018). Large-scale analysis of web trackers with OpenWPM. Proceedings on Privacy Enhancing Technologies, 2018(2), 82-97.
+% Mayer, J., & Mitchell, J. C. (2012). Third-party web tracking: Policy and technology. 2012 IEEE Symposium on Security and Privacy (pp. 413-427).
+% Leon, P. G., & Shin, E. C. (2014). Privacy threats through ultrasonic side channels on mobile devices. IEEE Security & Privacy, 12(5), 111-113.
+% Bonneau, J., et al. (2012). The post- password world: Towards a passwordless future. IEEE Security & Privacy, 10(1), 62-65.
+% Nikiforakis, N., et al. (2012). Cookieless monster: Exploring the ecosystem of web-based device fingerprinting. In Proceedings of the 2012 ACM conference on Computer and communications security (pp. 541-552).
+% Olejnik, L., et al. (2014). Do not track and its implications for online privacy and advertising. Journal of Business Research, 67(9), 1670-1679.
+% Acar, G., et al. (2014). Fingerprinting blank paper using commodity scanners. Proceedings on Privacy Enhancing Technologies, 2014(1), 82-102.
+% Acar, G., et al. (2013). Web-based attacks on host-proof encrypted storage. In Proceedings of the 22nd international conference on World Wide Web (pp. 309-320).
+% Libert, T., et al. (2018). Privacy implications of encrypted DNS traffic. Proceedings on Privacy Enhancing Technologies, 2018(3), 166-184.
+
+
+\section{Tracking methods}
+
+Web tracking has become an integral part of the online ecosystem, enabling various 
+entities to collect and analyze user data for a multitude of purposes. These methods
+employ a range of techniques to track users' online activities, including browsing behavior,
+interests, and preferences. In this section, we will provide a detailed examination of common web
+tracking methods, discussing their underlying mechanisms, potential implications, and associated privacy concerns.
+
+\subsection{HTTP Cookies}
+
+HTTP cookies serve as a fundamental method for web tracking. They can be used to collect user data
+during online interactions. Cookies are small text files which are created by websites and stored on the
+user's browser. They work by exchanging information between the server and the browser and can be facilitated 
+to remember user preferences, to maintain session states and to track user activities across different domains.
+
+Cookies primarily get set by the server. The HTTP response send by the server can contain one or more cookies, which 
+are then stored by the browser. Subsequently, with each visit to the same website, the browser includes the relevant
+cookies in the HTTP request, allowing the server to retrieve and utilize the stored information.
+
+There are two kinds of HTTP cookies. The first-party cookie which are set by the visited website itself are primarily
+used to enhance user experience and provide personalized content. And third-party cookies which are set by external 
+domains embedded within the visited website. These third-party cookies can be utilized to perform cross-site tracking 
+and allow advertisers and tracking entities to monitor user behavior across multiple websites, leading to the creation
+of detailed user profiles and targeted advertising strategies.
+
+Studies have demonstrated the extensive usage of third-party cookies for tracking purposes. Goel et al. \cite{goel2010anatomy} examined the usage 
+of third-party cookies on popular websites and revealed that more than 80\% of the analyzed websites had at least on third-party cookie. Mayer and Mitchell \cite{mayer2012third}
+found that around 85\% of websites in their dataset utilized third-party cookies for tracking users. Furthermore, Englehardt et al. \cite{englehardt2016online}
+performed a comprehensive study examining the prevalence of online tracking mechanisms, including third-party cookies. Their results indicate 
+that approximately 94\% of the studied websites use third-party cookies for tracking purposes,
+further underscoring their pervasive presence.
+These studies collectively demonstrate the widespread use of third-party cookies across numerous websites,
+emphasizing their prevalence as a tracking mechanism in the online ecosystem.
+
+\subsection{Web Beacons}
+Web beacons, also known as tracking pixels or clear GIFs, are invisible elements embedded within web content.
+These small, transparent images or code snippets allow website operators and third-party trackers to monitor
+and analyze user behavior on the internet. Web beacons are often utilized in conjunction with cookies and
+other tracking technologies to gather information about users' interactions with websites,
+emails, and advertisements.
+
+Web beacons operate by initiating a request to a remote server when a user accesses a webpage
+or interacts with specific online content that contains the beacon. This request includes various
+information such as the user's IP address, browser type, referring webpage, and the time of
+the interaction. By tracking the delivery and response of these requests, website operators
+and third-party trackers can gain valuable insights into users' online activities,
+including page views, click-through rates, and the effectiveness of marketing campaigns \cite{zimmer2010but}.
+
+Englehardt et al. \cite{englehardt2016online} identified web beacons as a prevalent tracking mechanism utilized
+by website operators and third-party trackers. The study revealed that a significant number of websites included
+web beacons as part of their tracking infrastructure. While the study does not provide specific statistics regarding
+the exact percentage of websites employing web beacons, it highlights the extensive usage of web beacons across the analyzed sample.
+
+Web beacons are commonly utilized in email tracking as well. When an email contains a web beacon, it allows the sender to monitor
+if and when the recipient opens the email, as well as track other engagement metrics \cite{gurses2011engineering}. 
+Moreover, web beacons play a significant role in online advertising by enabling advertisers to measure the effectiveness
+of their campaigns and target specific audiences. A study by Nikiforakis et al. \cite{nikiforakis2013cookieless}
+explored the presence of web beacons in online advertisements and found that approximately 45\% of the analyzed advertisements
+utilized web beacons for tracking user interactions. This indicates the widespread usage of web beacons in the advertising
+industry to monitor user engagement and optimize ad delivery.
+
+The extensive usage of web beacons raises concerns about user privacy and tracking practices. As web beacons operate invisibly,
+users may be unaware of their presence and the extent of data collection associated with them. Furthermore, the ability to track
+users across multiple websites and platforms through web beacons can lead to the creation of detailed user profiles,
+potentially infringing upon privacy rights \cite{acquisti2015privacy}.
 
 
 
+\subsection{Device Fingerprinting}
+
+\subsection{Cross-Site Tracking}
+
+\subsection{Behavioral Tracking}
+
+\subsection{Social Media Tracking}
+
+\section{AI based tracker detection}
 
