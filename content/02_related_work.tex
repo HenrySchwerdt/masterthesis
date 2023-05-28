@@ -46,22 +46,16 @@ the use of web trackers and holding large companies accountable for their use.
 
 In addition to the work of Englehardt et al. and Schelter and Kunegis,
 several other studies have expressed privacy concerns about web trackers \cite{bujlow2017survey,chaabane2012big}.
-For instance, Mayer and Mitchell [3] discuss the policy and technology 
+For instance, Mayer and Mitchell \cite{mayer2012third} discuss the policy and technology 
 challenges related to third-party web tracking, and argue that user consent
-and control over personal data are critical. Leon and Shin [4] highlight the
-privacy threats posed by ultrasonic side channels on mobile devices, while
-Bonneau et al. [5] propose a passwordless future to protect user privacy.
-Nikiforakis et al. [6] explore the ecosystem of web-based device fingerprinting,
-while Olejnik et al. [7] discuss the implications of "Do Not Track" (DNT)
-for online privacy and advertising. Acar et al. [8,9] examine web-based attacks
-on encrypted storage and the fingerprinting of blank paper using commodity
-scanners, respectively. These studies emphasize the need for effective
+and control over personal data are critical. Nikiforakis et al. \cite{nikiforakis2013cookieless} explore
+the ecosystem of web-based device fingerprinting. These studies emphasize the need for effective
 web tracker blocking tools to protect user privacy.
 
 The potential risks associated with web tracking are significant,
 and include targeted advertising and the tracking of users' political
 preferences, which can have serious implications for democratic
-processes [1, 10]. Web trackers can also be used to gather information
+processes \cite{englehardt2015cookies, englehardt2016online, mayer2012third}. Web trackers can also be used to gather information
 about users' personal interests, behaviors, and habits, which can be
 exploited by malicious actors. The findings of these studies underscore
 the importance of addressing the issue of web tracking and the need
@@ -75,18 +69,6 @@ the need for effective measures to prevent web tracking and
 protect user privacy. It is crucial that policymakers, tech companies,
 and individuals take action to regulate the use of web trackers
 and ensure that user data is protected from unauthorized access and use.
-
-
-% Englehardt, S., et al. (2016). Online tracking: A 1-million-site measurement and analysis. In Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (pp. 1388-1401).
-% Schelter, S., & Kunegis, J. (2018). Large-scale analysis of web trackers with OpenWPM. Proceedings on Privacy Enhancing Technologies, 2018(2), 82-97.
-% Mayer, J., & Mitchell, J. C. (2012). Third-party web tracking: Policy and technology. 2012 IEEE Symposium on Security and Privacy (pp. 413-427).
-% Leon, P. G., & Shin, E. C. (2014). Privacy threats through ultrasonic side channels on mobile devices. IEEE Security & Privacy, 12(5), 111-113.
-% Bonneau, J., et al. (2012). The post- password world: Towards a passwordless future. IEEE Security & Privacy, 10(1), 62-65.
-% Nikiforakis, N., et al. (2012). Cookieless monster: Exploring the ecosystem of web-based device fingerprinting. In Proceedings of the 2012 ACM conference on Computer and communications security (pp. 541-552).
-% Olejnik, L., et al. (2014). Do not track and its implications for online privacy and advertising. Journal of Business Research, 67(9), 1670-1679.
-% Acar, G., et al. (2014). Fingerprinting blank paper using commodity scanners. Proceedings on Privacy Enhancing Technologies, 2014(1), 82-102.
-% Acar, G., et al. (2013). Web-based attacks on host-proof encrypted storage. In Proceedings of the 22nd international conference on World Wide Web (pp. 309-320).
-% Libert, T., et al. (2018). Privacy implications of encrypted DNS traffic. Proceedings on Privacy Enhancing Technologies, 2018(3), 166-184.
 
 
 \section{Tracking techniques}
@@ -155,7 +137,7 @@ introduced the Do Not Track (DNT) policy \cite{dnt}. DNT operates as a header fi
 their preferences regarding tracking practices. By activating the DNT flag, users explicitly indicate their
 desire to avoid being tracked without clear and informed consent. This policy has been widely adopted by various web browsers,
 making it accessible to users through their browser settings. Moreover, the private browsing mode was created allowing users to automatically delete the local 
-storage after each browsing session. Besides, browser extensions were developed which block third-party tracking to an extent \cite{ghostery,abp,shareMeNot}.
+storage after each browsing session. Besides, browser extensions were developed which block third-party tracking to an extent \cite{ghostery,abp,trackingObserver, shareMeNot}.
 
 \subsection{Stateless Web Tracking}
 Stateless web tracking refers to a category of web tracking techniques that do not rely on storing user data on
@@ -218,6 +200,9 @@ users across multiple websites and platforms through web beacons can lead to the
 potentially infringing upon privacy rights \cite{acquisti2015privacy}.
 
 \section{Types of Tracking}
+This section delves into two primary categories of tracking: first-party tracking and third-party tracking.
+Each category encompasses distinct applications, and considerations, shedding light on the complexities
+of user data collection and its impact on privacy, personalization, and user experiences.
 \subsection{First-party Tracking}
 
 First-party tracking refers to the collection and analysis of user data by the website or domain that the user directly
@@ -285,7 +270,7 @@ entities often occur without users' explicit knowledge or consent, leading to de
 transparency and control over personal data.
 \section{Tracking Protection Lists}
 
-Third-party tracking poses a significant challenge to online privacy, necessitating the development of effective countermeasures
+As mentioned before, tracking poses a significant challenge to online privacy, necessitating the development of effective countermeasures
 to mitigate its impact. One prevalent approach in combating this issue involves the use of Tracking Protection Lists (TPLs),
 commonly referred to as \textit{"blocking lists"} or \textit{"blacklists"} \cite{bujlow2017survey,mayer2012third}. TPLs consist of carefully curated collections of domain names
 that are classified by the community. These lists are instrumental in blocking third-party content or services and serve two
@@ -308,7 +293,7 @@ challenges associated with manual curation. By leveraging ML algorithms, it beco
 identify patterns, and make accurate predictions about the domains that should be included in the blocking lists. This not only enhances the efficiency
 and accuracy of the lists but also reduces the burden on users and administrators in terms of manual maintenance and updates.
 
-\section{Machine Learning Based Tracking Protection}
+\section{Machine Learning Based Tracking Detection}
 
 The utilization of machine learning methods in order to detect and/or block web tracker go back to 1999. In this year, Kushmerick \cite{kushmerick1999learning}
 introduced a ML based advertisement blocker. This approach utilizes inductive learning to automatically
@@ -316,11 +301,51 @@ generate rules that enable the blocker to distinguish between ads and non-ads. B
 the blocker effectively conserves bandwidth. This is achieved through the extraction of relevant features that aid in determining
 whether a given element is an ad, such as analyzing the size of images. It is worth noting that the production implementation of
 this blocker requires approximately 70 milliseconds to remove each image. The learned rules in this ML-based approach yield an
-impressive accuracy of 97.1\%. However, it is important to recognize that since 1999, technological advancements have occurred,
-and web pages now pose additional privacy hazards beyond advertising. Moreover, the feature extraction process employed in this
-approach is relatively simplistic and has room for improvement.
-\subsection{Stateful Tracking}
-\subsection{Stateless Tracking}
+impressive accuracy of 97.1\%. A similar approach to block unwanted images from loading was published in 2005 by Esfandiari \cite{esfandiari2005adaptive}.
+They used a different algorithm to prevent the unwanted images from loading and also achieved great success with minimal user feedback.
+
+Nowadays, there is shift from detecting advertisements to detecting and blocking unwanted web tracker. As mentioned before 
+the kind of tracker can be categorized as stateful tracker and stateless tracker. Therefore, we split the machine learning based
+protection approaches into these two categories.
+
+\subsection{Stateful Tracking Detection}
+
+One of the first ML based approaches to stateful web tracking was published by Yamanda et al. \cite{yamada2010web} in 2010.
+In their approach they analyzed traffic at the network gateway and constructing a graph for the traffic by monitoring the visited
+time on each website and the website itself. They then labeled a dataset by utilizing public available tracking protection lists
+and trained their supervised classifier with this data. Their classifier achieved an accuracy between 62\% to 73\%.
+
+Furthermore, Li et al. \cite{li2015trackadvisor} presented \emph{"TrackAdvisor"} which utilizes machine learning for 
+accurately identifying HTTP requests carrying sensitive information to third-party trackers. It achieved a recall rate of 100\% and a precision rate of 99.4\%, outperforming
+existing third-party tracking blacklists. The study found that 46\% of the websites in the Alexa Global Top 10,000 had at least
+one third-party tracker, with Google monitoring approximately 25\% of these popular websites. The research aimed to measure
+the pervasiveness of third-party tracking and raise awareness about its privacy risks.
+
+Additionally, Metwalley et al. \cite{metwalley2015unsupervised} published an unsupervised methodology that utilizes application-level traffic logs to automatically
+detect services engaged in tracking activities. The methodology is based on an algorithm that identifies user identifiers exposed
+in URL queries within HTTP(S) transactions. The algorithm was validated using an artificial dataset created by visiting the top
+200 most popular websites according to the Alexa rank. The results were promising, with the algorithm identifying 34 previously
+unknown third-party trackers not found in existing blacklists. The analysis of the algorithm's output revealed privacy-related
+interactions, including scenarios suggesting the practice of Cookie Matching, where user activity information is shared across
+multiple third-party entities.
+
+A similar study has been performed by Dudykevych \cite{dudykevych2016detecting} in which the authors aimed to address privacy violations caused by third-party services and evaluate the effectiveness
+of a method for automatically identifying web-tracking requests. By analyzing a corpus of internet traffic, they were able
+to detect 95\% of third-party trackers, including previously unseen trackers. The results demonstrated the potential of
+their approach to accurately identify web trackers based on HTTP request analysis. The study highlighted the significance
+of shared cookies across different domains, shedding light on the extent of privacy concerns associated with third-party tracking.
+
+In 2023, Raschke et al. \cite{raschke2023} introduced \emph{"t.ex-Graph"}, which is a representation that models the flow of data
+between websites in the form of a graph to identify Web trackers. They utilized a publicly available dataset
+of HTTP/S requests collected from the Tranco top 10K websites to extract the graph. Additionally, they defined a set of features
+which were used to train ML models on the dataset. The experimental results demonstrate an impressive accuracy rate of 88\% and the capability to identify previously unknown Web trackers.
+
+The previous shown examples can all be used to validate TPLs, but a preemptive blocking of requests in real-time seams difficult, because some 
+of the discussed features can only be obtained after the requests has been sent to host or the model requires a lot of information in order 
+to perform its classification. However, Castell-Uroz et al. \cite{castell2020url} proposed a method that encodes the URL of a request and passes this
+encoded representation to a classifier. This is a quite reduced approach to this topic and requires only data which is available before a request
+is sent. They achieved an accuracy of 97\% and state the model could be applied in real-time scenarios.
+\subsection{Stateless Tracking Detection}
 
 \section{Research gap}
 
