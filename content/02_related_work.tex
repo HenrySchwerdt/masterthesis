@@ -345,7 +345,57 @@ of the discussed features can only be obtained after the requests has been sent 
 to perform its classification. However, Castell-Uroz et al. \cite{castell2020url} proposed a method that encodes the URL of a request and passes this
 encoded representation to a classifier. This is a quite reduced approach to this topic and requires only data which is available before a request
 is sent. They achieved an accuracy of 97\% and state the model could be applied in real-time scenarios.
+
 \subsection{Stateless Tracking Detection}
+
+A similar effort to develop ML based tracking detection is performed in the stateless tracking detection field. Bau et al. \cite{bau2013promising} 
+investigated the use of machine learning (ML) for tracker detection. Their research focused on the advantages of ML,
+including ease of maintenance and the ability to adapt to changing tracking behaviors. They collected data from a web
+crawl of the Quantcast United States top 32,000 homepages, labeling each node in DOM-like hierarchies. After training the ML model
+on this dataset, they achieved a weighted precision of 96.7\% with a false-positive rate of 0.5\%.
+
+Kaizer et al. \cite{kaizer2016towards} investigated machine-based tracking, focusing specifically on JavaScript-oriented tracking due to its widespread
+accessibility. They explored the use of coarse features related to JavaScript access, cookie access, and URL length subdomain
+information to create a classifier for identifying machine-based trackers. The classifier achieved an accuracy of 97.7\%.
+The researchers applied this classifier to real-world datasets obtained from 30-minute website crawls, including websites targeting
+children and those targeting a popular audience. They found that over 85\% of all websites, including those targeting regulated groups
+like children, utilized machine-based tracking.
+
+In the same year, Wu et al. \cite{wu2016machine} addressed the problem of privacy violations caused by third-party tracking and the
+limitations of blacklist-based defense methods. They proposed \emph{"DMTrackerDetector"}, a system that automatically detected third-party
+trackers with high accuracy. By leveraging the structural hole theory to preserve first-party trackers and employing supervised
+machine learning, they achieved a 97.8\% detection accuracy for third-party trackers. The generated blacklist covered the popular
+Ghostery \cite{ghostery} list and unveiled 35 previously unknown trackers. This research contributed to improving the efficiency
+and coverage of anti-tracking technologies.
+
+Ikram et al. \cite{ikram2016towards} took a different approach to this problem. In their work they focus on the usability aspect
+in which more blocking tools reduce the user experiences on websites \cite{leon2012johnny}. They recognized the shared similarities in tracking
+JavaScript code, attributed to the use of common libraries by developers. To validate their assumption, they trained a one-class
+classifier on semantic and syntactic features of JavaScript code. The classifier, trained on 2,612 manually labeled JavaScript
+programs, achieved an impressive accuracy of 99\%. The research also
+revealed that their model exhibited different labeling patterns compared to other tools or blocking lists. Manual investigation
+confirmed that the model not only enhanced the user experience but also uncovered new tracking services. However, the method
+faced challenges in data collection and its adaptability to library changes.
+
+Iqbal et al. \cite{iqbal2018adgraph} made significant progress in ML-based web tracker detection by integrating multiple layers of information
+into a unified supervised learning model. They structured browsing data as a directed graph with three node types
+(HTML, HTTP, JavaScript) and edges representing browser events. The ML model extracted features (e.g., in-degree, out-degree, descendants)
+for each node and labeled data points as advertisement or no-advertisement. The absence of a ground truth for tracker detection
+posed challenges, as filter lists contained false negatives and false positives. To address this, Iqbal et al. (2023) established 
+a methodology for handling divergent classifications. Despite these complexities, their approach yielded impressive results,
+achieving 97.7\% accuracy and 83\% precision. Notably, their strict evaluation methodology accounted for discrepancies between
+the model and blocking lists, further underscoring the significance of their high accuracy.
+
+In their subsequent work, Iqbal et al. \cite{iqbal2020adgraph} conducted an evaluation of their \emph{"ADGRAPH"} \cite{adgraph} machine learning (ML) model
+using the top 10,000 web pages from the Alexa ranking. They employed a customized Chromium browser for website
+crawling enabling the construction of a directed graph spanning HTML, HTTP, and
+JavaScript layers. Structural features (e.g., graph size, degrees, number of siblings) capturing relationships between web
+elements and content features (e.g., request type, keywords, URL length) representing values associated with individual
+nodes were extracted from this graph. These features were then input into their trained classifier to determine tracking
+versus non-tracking attributes. The analysis of the crawl results confirmed that non-ad nodes exhibit higher average
+degree connectivity as they interact with web page content, while ad nodes show lower average degree connectivity.
+Additionally, the study demonstrated a 95.33\% replication of labels from human-generated blocking lists and identified errors
+in these lists.
 
 \section{Research gap}
 
