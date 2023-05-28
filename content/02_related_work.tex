@@ -89,58 +89,120 @@ and ensure that user data is protected from unauthorized access and use.
 % Libert, T., et al. (2018). Privacy implications of encrypted DNS traffic. Proceedings on Privacy Enhancing Technologies, 2018(3), 166-184.
 
 
-\section{Tracking methods}
+\section{Tracking techniques}
 
 Web tracking has become an integral part of the online ecosystem, enabling various 
 entities to collect and analyze user data for a multitude of purposes. These methods
 employ a range of techniques to track users' online activities, including browsing behavior,
-interests, and preferences. In this section, we will provide a detailed examination of common web
-tracking methods, discussing their underlying mechanisms, potential implications, and associated privacy concerns.
+interests, and preferences. To understand these techniques better, web tracking can be broadly
+categorized into two types: stateless tracking and stateful tracking. In this section, we explore
+the distinctions between these two approaches and their implications for user privacy and online experiences.
 
-\subsection{HTTP Cookies}
+\subsection{Stateful Web Tracking}
+Stateful web tracking is a pervasive phenomenon in the digital landscape that plays a crucial role in understanding user behavior,
+personalizing online experiences, and enabling targeted advertising. Unlike stateless tracking, which relies on transient interactions,
+stateful tracking involves the persistent storage of user-related information, allowing for long-term tracking and analysis. 
 
-HTTP cookies serve as a fundamental method for web tracking. They can be used to collect user data
-during online interactions. Cookies are small text files which are created by websites and stored on the
-user's browser. They work by exchanging information between the server and the browser and can be facilitated 
-to remember user preferences, to maintain session states and to track user activities across different domains.
+A common practice for this king of tracking involves the utilization \emph{cookies}. These cookies were primarily introduced to enable 
+stateful web navigation \cite{jschwartz}. Cookies are small text files that are commonly used in web browsing to store information
+on the user's computer or device. These files serve as a means for websites to remember specific data about a user,
+allowing for enhanced browsing experiences and personalized content delivery. Cookies play a vital role in facilitating
+various online activities, such as maintaining login sessions and remembering user preferences.
 
-Cookies primarily get set by the server. The HTTP response send by the server can contain one or more cookies, which 
-are then stored by the browser. Subsequently, with each visit to the same website, the browser includes the relevant
-cookies in the HTTP request, allowing the server to retrieve and utilize the stored information.
+However, they can be abused to track users around the web. Cookies can be classified into two kinds.
+The first-party cookie which are set by the visited website itself and third-party cookies which are set by external 
+resources embedded within the visited website. These cookies allow the third party to store information on the client's browser in regard 
+to the visited first-part website. In the case that this third-party resource is included on a large amount of websites it is possible 
+for that third party to create a detailed browsing history and profile the user's browsing habits. This phenomenon is called \emph{third-party cookies}
+and is one of the most common methods for web tracking. Similar functionality was adopted by other browser components like
+\emph{Flash cookies}. 
 
-There are two kinds of HTTP cookies. The first-party cookie which are set by the visited website itself are primarily
-used to enhance user experience and provide personalized content. And third-party cookies which are set by external 
-domains embedded within the visited website. These third-party cookies can be utilized to perform cross-site tracking 
-and allow advertisers and tracking entities to monitor user behavior across multiple websites, leading to the creation
-of detailed user profiles and targeted advertising strategies.
+Flash cookies, also referred to as Local Shared Objects (LSOs), emerged as a web tracking mechanism leveraging Adobe Flash technology.
+Differing from conventional HTTP cookies, Flash cookies possessed the capability to store larger amounts of data, up to 100 kilobytes \cite{sipior2011online}.
+Moreover, Flash cookies evaded the limitations and controls imposed upon regular cookies, offering a means to track user behavior,
+store user preferences, and facilitate multimedia content on websites \cite{krishnamurthy2011privacy}.
 
-Studies have demonstrated the extensive usage of third-party cookies for tracking purposes. Goel et al. \cite{goel2010anatomy} examined the usage 
-of third-party cookies on popular websites and revealed that more than 80\% of the analyzed websites had at least on third-party cookie. Mayer and Mitchell \cite{mayer2012third}
-found that around 85\% of websites in their dataset utilized third-party cookies for tracking users. Furthermore, Englehardt et al. \cite{englehardt2016online}
-performed a comprehensive study examining the prevalence of online tracking mechanisms, including third-party cookies. Their results indicate 
+However, the utilization of Flash cookies has witnessed a decline and is no longer extensively employed, primarily attributable
+to privacy and data security concerns \cite{hoofnagle2010different}. Flash cookies, with their expanded storage capacity and detachment from browser controls,
+allowed for the stealthy tracking of users across various browsers and devices without explicit consent or awareness,
+thereby exacerbating privacy apprehensions \cite{soltani2010flash}.
+
+The prevalence of mobile devices and the diminishing support for Adobe Flash have further contributed to the waning relevance of Flash
+cookies. As modern browsers and mobile operating systems gradually phased out Flash technology, website developers transitioned to
+alternative technologies like HTML5, rendering the reliance on Flash cookies for functionality less significant \cite{bbcflash}.
+
+Furthermore, \emph{HTML5}, the latest version of the HyperText Markup Language, introduces novel mechanisms that enable websites and
+third-party trackers to store data within the browser environment without the need for traditional cookies. One such mechanism
+is the utilization of the \emph{Window.name} property in \emph{JavaScript}, which serves as a non-persistent storage medium for sharing
+information across different websites. The \emph{Window.name} property allows for the exchange of data between domains,
+even in scenarios where the domains are distinct \cite{sy2018tracking}. By leveraging this property, websites and third-party trackers
+can persistently store data within the browser, effectively bypassing the limitations associated with traditional
+cookie-based storage \cite{pan2015not}. The \emph{Window.name} property, in conjunction with HTML5's enhanced functionality, provides a
+flexible and efficient approach to data storage and sharing within the web ecosystem.
+
+The use of third-party cookies is a common topic in the research community \cite{mayer2012third,
+roesner2012detecting, nikiforakis2013cookieless, west2012analysis,krishnamurthy2006generating,englehardt2015cookies}.
+Goel et al. \cite{goel2010anatomy} examined the usage of third-party cookies on popular websites and revealed that more than
+80\% of the analyzed websites had at least on third-party cookie. Mayer and Mitchell \cite{mayer2012third} found that around
+85\% of websites in their dataset utilized third-party cookies for tracking users. Furthermore, Englehardt et al.
+\cite{englehardt2016online} performed a comprehensive study examining the prevalence of online tracking mechanisms, including third-party cookies. Their results indicate 
 that approximately 94\% of the studied websites use third-party cookies for tracking purposes,
 further underscoring their pervasive presence.
-These studies collectively demonstrate the widespread use of third-party cookies across numerous websites,
-emphasizing their prevalence as a tracking mechanism in the online ecosystem.
 
-\subsection{Web Beacons}
+Furthermore, the public has been informed about third-party tracking due to the "What they know" series by the Wall Street Journal
+in 2010 \cite{whattheyknow}. This seminal series served as a catalyst for society's recognition of the issue, leading to a surge in public concern for online privacy. Responding to this mounting pressure, the Electronic Frontier Foundation (EFF)
+introduced the Do Not Track (DNT) policy \cite{dnt}. DNT operates as a header field that enables users to express
+their preferences regarding tracking practices. By activating the DNT flag, users explicitly indicate their
+desire to avoid being tracked without clear and informed consent. This policy has been widely adopted by various web browsers,
+making it accessible to users through their browser settings. Moreover, the private browsing mode was created allowing users to automatically delete the local 
+storage after each browsing session. Besides, browser extensions were developed which block third-party tracking to an extent \cite{ghostery,abp,shareMeNot}.
+
+\subsection{Stateless Web Tracking}
+Stateless web tracking refers to a category of web tracking techniques that do not rely on storing user data on
+the client-side or maintaining persistent identifiers. This stateless identification of devices is a technique used
+in web tracking that involves collecting and analyzing various attributes of a user's device to create a unique identifier.
+These attributes can include information about the device's operating system, browser version, screen resolution,
+installed fonts, and plug-ins, among others. By combining these attributes, a fingerprint is generated that can be used to track and
+identify a user across different websites and sessions, even if cookies are cleared or disabled or the user is browsing in a private 
+browsing window.
+
+These fingerprints are created by accessing all available information about the user's device with JavaScript which runs in the browser.
+JavaScript provides many features interacting with the resources of the computer, because of that it is possible to identify the user's 
+operating system and architecture. Furthermore, it is possible to get browser specific information via the \emph{"navigator"} object as well as 
+screen information like the \emph{"width"}, \emph{"height"} and \emph{"color depth"} of the screen via the \emph{"screen"} object. All the available 
+information can then be hashed and used to identify a certain user. In addition, it is easier to distribute such hashes because they do not depend 
+on information stored on the user's device such as cookies. Any third-party party which hashes with the same information and the same algorithm 
+can identify a user another tracking service identified previously.
+
+Using a combination of available fields, namely \emph{"navigator"}, \emph{"screen"}, \emph{"navigator.plugins"}, and \emph{"navigator.MimeTypes"},
+Mayer \cite{mayer2009any} successfully applied a hashing technique to achieve a remarkable 96\% unique identification rate among
+a sample of 1,328 users.
+
+Eckersley \cite{eckersley2010unique} conducted a study to evaluate the uniqueness and stability of
+device fingerprints. The results indicated that device fingerprints can be highly unique,
+with a low probability of collision even among a large population of devices. The study also found
+that device fingerprints can remain stable over time, making them reliable for long-term tracking purposes.
+
+Mowery et al. \cite{mowery2011fingerprinting} investigated the prevalence of device fingerprinting
+in the wild by analyzing a large dataset of websites. Their findings revealed that a significant
+number of websites engage in device fingerprinting activities, further highlighting its widespread
+use as a tracking mechanism.
+
+However, these features are not the only features available. It was also possible to determine different JavaScript engines by 
+performing benchmarks on the user's device \cite{miyazaki2008online}, or to exploit the \emph{canvas} API to determine differences 
+in the HTML rendering also known as canvas fingerprinting \cite{mowery2012pixel}.
+
+Furthermore, the usage of \emph{web beacons} is another stateless tracking techniques.
 Web beacons, also known as tracking pixels or clear GIFs, are invisible elements embedded within web content.
 These small, transparent images or code snippets allow website operators and third-party trackers to monitor
-and analyze user behavior on the internet. Web beacons are often utilized in conjunction with cookies and
-other tracking technologies to gather information about users' interactions with websites,
-emails, and advertisements.
+and analyze user behavior on the internet.
 
-Web beacons operate by initiating a request to a remote server when a user accesses a webpage
+They operate by initiating a request to a remote server when a user accesses a webpage
 or interacts with specific online content that contains the beacon. This request includes various
 information such as the user's IP address, browser type, referring webpage, and the time of
 the interaction. By tracking the delivery and response of these requests, website operators
 and third-party trackers can gain valuable insights into users' online activities,
 including page views, click-through rates, and the effectiveness of marketing campaigns \cite{zimmer2010but}.
-
-Englehardt et al. \cite{englehardt2016online} identified web beacons as a prevalent tracking mechanism utilized
-by website operators and third-party trackers. The study revealed that a significant number of websites included
-web beacons as part of their tracking infrastructure. While the study does not provide specific statistics regarding
-the exact percentage of websites employing web beacons, it highlights the extensive usage of web beacons across the analyzed sample.
 
 Web beacons are commonly utilized in email tracking as well. When an email contains a web beacon, it allows the sender to monitor
 if and when the recipient opens the email, as well as track other engagement metrics \cite{gurses2011engineering}. 
@@ -155,15 +217,110 @@ users may be unaware of their presence and the extent of data collection associa
 users across multiple websites and platforms through web beacons can lead to the creation of detailed user profiles,
 potentially infringing upon privacy rights \cite{acquisti2015privacy}.
 
+\section{Types of Tracking}
+\subsection{First-party Tracking}
 
+First-party tracking refers to the collection and analysis of user data by the website or domain that the user directly
+interacts with. This type of tracking involves the website owner using various technologies and techniques to monitor user
+behavior, personalize experiences, and improve their own services. First-party tracking can encompass a wide range of
+possibilities and applications, which are crucial for understanding user preferences, enhancing website usability,
+and delivering targeted content.
+\begin{enumerate}
+  \item{\textbf{Personalization and Customization:} First-party tracking allows websites to personalize user experiences based on their browsing history,
+    preferences, and demographics. By monitoring user interactions, websites can tailor content,
+    recommendations, and suggestions to individual users. For instance, online retailers can use first-party
+    tracking to offer personalized product recommendations. Such personalization enhances user engagement
+    and satisfaction by providing relevant and targeted content.
+    }
+  \item{\textbf{Analytics and Performance Optimization:} First-party tracking enables website owners to gather data about user behavior and website performance.
+    By analyzing metrics like page views, click-through rates, and conversion rates, website owners can gain
+    insights into user engagement and make data-driven decisions to optimize their website.
+    }
+  \item{\textbf{Security and Fraud Prevention:} First-party tracking can be employed to enhance website security and detect fraudulent
+    activities. By monitoring user behavior patterns, websites can identify suspicious activities, such as account takeover
+    attempts or unusual transactions, and trigger security measures to protect users and their data.
+    First-party tracking can also aid in preventing click fraud and bot activity.
+  }
+  \item{\textbf{User Authentication and Session Management:} First-party tracking is instrumental in managing user sessions and authentication.
+    Websites use techniques like session cookies or local storage to maintain user sessions and enable secure logins.
+    By tracking user authentication status, websites can provide personalized experiences and maintain user preferences across sessions.
+  }
+  \item{\textbf{A/B Testing and Conversion Optimization:} First-party tracking plays a crucial role in conducting A/B testing and
+    conversion rate optimization. Websites can track user interactions and behavior on different versions of their webpages
+    to analyze the impact of design or content variations on user engagement and conversions. This data-driven approach
+    helps optimize website elements for better performance \cite{siroker2015b}.
+  }
+\end{enumerate}
+These examples showcase the diverse applications of first-party tracking in enhancing user experiences, improving website performance,
+and ensuring security. It is important to note that the implementation and practices of first-party is an ever-growing environment and the 
+provided use cases are not comprehensive.
+\subsection{Third-party Tracking}
+Third-party tracking involves the collection and analysis of user data by entities separate from the website or domain directly
+interacted with by the user. It encompasses the monitoring and tracking activities conducted by third-party trackers, often
+for advertising and analytics purposes.
+\begin{enumerate}
+  \item{\textbf{Targeted Advertising:} One prominent application of third-party tracking is targeted advertising.
+      Third-party trackers collect user data from multiple websites to create detailed profiles and deliver personalized
+      advertisements based on users' browsing history, preferences, and demographics \cite{agarwal2013not,acquisti2016economics,turow2009americans}. This form of tracking
+      enables advertisers to reach their target audiences more effectively and increase the relevance of advertisements displayed.
+    }
+  \item{\textbf{Cross-Site Analytics:} Third-party tracking facilitates the aggregation of user data across different websites
+      to generate comprehensive analytics and insights. Analytics platforms and data brokers employ third-party tracking techniques
+      to collect data on user behavior, engagement metrics, and conversion rates across various websites \cite{googleAna}.
+      These insights can then be used to optimize marketing strategies, improve user experiences, and inform business decisions.
+    }
+  \item{\textbf{Data Monetization:} Third-party tracking plays a pivotal role in the monetization of user data. Data brokers and
+      other intermediaries collect and aggregate user data from multiple sources, including third-party tracking, and sell this
+      data to interested parties such as marketers, advertisers, and researchers \cite{turow2015tradeoff}. The data obtained through
+      third-party tracking can be valuable for market research, consumer profiling, and trend analysis.
+    }
+\end{enumerate}
 
-\subsection{Device Fingerprinting}
+Third-party tracking is a lucrative operation to generate higher conversion rates or to sell the collected data to other companies.
+The value of the data is depended on the retrieved information. Mayer and Mitchell \cite{mayer2012third} conducted an investigation into the landscape of third-party
+web tracking, highlighting the role of cross-site tracking in enabling comprehensive user profiling.
+They emphasized the potential privacy risks associated with cross-site tracking and the challenges
+it poses to user control over their personal information. The tracking activities conducted by third-party
+entities often occur without users' explicit knowledge or consent, leading to debates about
+transparency and control over personal data.
+\section{Tracking Protection Lists}
 
-\subsection{Cross-Site Tracking}
+Third-party tracking poses a significant challenge to online privacy, necessitating the development of effective countermeasures
+to mitigate its impact. One prevalent approach in combating this issue involves the use of Tracking Protection Lists (TPLs),
+commonly referred to as \textit{"blocking lists"} or \textit{"blacklists"} \cite{bujlow2017survey,mayer2012third}. TPLs consist of carefully curated collections of domain names
+that are classified by the community. These lists are instrumental in blocking third-party content or services and serve two
+primary purposes. Firstly, they can be implemented at the router level, enabling the direct blocking of malicious domains.
+Secondly, they can be integrated into web browsers, which is the more commonly adopted method due to its simplicity in terms of setup.
 
-\subsection{Behavioral Tracking}
+To facilitate the blocking or limitation of third-party access, various client-side tools have been developed, offering users greater
+control over their online privacy. Prominent examples of such tools include \textit{Ghostery}, \textit{AdBlockPlus}, \textit{TrackingObserver}, and \textit{ShareMeNot}
+\cite{ghostery, abp, trackingObserver, shareMeNot}.
+Studies have demonstrated the positive privacy effects of these tools, underscoring their efficacy in mitigating third-party tracking \cite{kontaxis2015tracking}.
 
-\subsection{Social Media Tracking}
+However, it is important to acknowledge the limitations associated with TPLs. The frequent updates and accurate labeling of domains are crucial
+to ensure their effectiveness. Failure to maintain up-to-date and properly labeled lists may result in certain third-party entities evading detection
+by the blocking tools or causing malfunctions in web pages. This challenge has prompted researchers to explore alternative approaches to enhance
+the maintenance and updating process of blocking lists.
 
-\section{AI based tracker detection}
+In light of this, a promising avenue of research in the field of web tracking countermeasures involves the utilization of Machine Learning (ML)
+models. These models offer the potential to automate and streamline the process of managing and updating blocking lists, addressing the inherent
+challenges associated with manual curation. By leveraging ML algorithms, it becomes possible to analyze vast amounts of data,
+identify patterns, and make accurate predictions about the domains that should be included in the blocking lists. This not only enhances the efficiency
+and accuracy of the lists but also reduces the burden on users and administrators in terms of manual maintenance and updates.
+
+\section{Machine Learning Based Tracking Protection}
+
+The utilization of machine learning methods in order to detect and/or block web tracker go back to 1999. In this year, Kushmerick \cite{kushmerick1999learning}
+introduced a ML based advertisement blocker. This approach utilizes inductive learning to automatically
+generate rules that enable the blocker to distinguish between ads and non-ads. By removing advertisements before they are downloaded,
+the blocker effectively conserves bandwidth. This is achieved through the extraction of relevant features that aid in determining
+whether a given element is an ad, such as analyzing the size of images. It is worth noting that the production implementation of
+this blocker requires approximately 70 milliseconds to remove each image. The learned rules in this ML-based approach yield an
+impressive accuracy of 97.1\%. However, it is important to recognize that since 1999, technological advancements have occurred,
+and web pages now pose additional privacy hazards beyond advertising. Moreover, the feature extraction process employed in this
+approach is relatively simplistic and has room for improvement.
+\subsection{Stateful Tracking}
+\subsection{Stateless Tracking}
+
+\section{Research gap}
 
