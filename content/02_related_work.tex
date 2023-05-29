@@ -397,5 +397,21 @@ degree connectivity as they interact with web page content, while ad nodes show 
 Additionally, the study demonstrated a 95.33\% replication of labels from human-generated blocking lists and identified errors
 in these lists.
 
+Similar to Iqbal et al. \cite{iqbal2020adgraph}, Rizzo et al. \cite{rizzo2021unveiling} developed and
+evaluated a methodology combining JavaScript code analysis and machine learning to detect web fingerprinters.
+Using a dataset of over 400,000 JavaScript files accessed during a month-long experiment, they compared static
+and dynamic code analysis approaches to uncover fingerprinting practices. Their methodology achieved 94\% accuracy
+with fast decision time, identifying 840 fingerprinting services, including 695 previously unknown to popular tracker
+blockers. These findings contribute to the understanding and detection of web fingerprinting techniques.
+
+
 \section{Research gap}
+
+As previously discussed, many of developed classifier are not designed for real-time applications. Most of them can only
+be used to evaluate TPLs. For stateful tracker detection the most promising classifier with regard to real-time application is
+Castell-Uroz et al. \cite{castell2020url}. With the rise of client-side ML libraries such as \emph{"tensorflowjs"} the goal of
+real-time tracker detection and even the blocking of these requests comes closer to achieve.
+
+Furthermore, there are no real comparisons regarding the use of a real-time classifier and the usage of tracking blockers. This could
+generate more insights about the ML classifiers and demonstrate the real world application of the resarch approaches.
 
