@@ -220,19 +220,49 @@ and the creation of new models can be done via the admin panel. With this backen
 better models and serves them to the clients. Furthermore, we hope to simplify the process of gathering training data and to create a better
 ground truth in the web tracking field.
 
-
-
-
 \subsection{Limitations}
 
-\section{Methodology}
-Literature Review
-Empirical
-- Classifier Performance
-- Performance
-- Quality of Experience
-Design science
+However, there are limitations to this approach. The selected features may not be optimal for the problem and should be evaluated.
+This could be done by generating variations of feature vectors using all the available features before a request is sent to the server.
+After that, a grid search could be implemented to validate which feature vector fits the problem best. 
 
+Furthermore, the same problem applies to the model. The neural network structure may not be optimal for the given use case and could also
+be optimized with a grid search. This might lead to performance gains. Another more generic dataset could be used to create a better generalized
+model which could lead to a better performance in the real-time application causing less site breakages.
+
+\section{Methodology}
+
+In this section, we outline the methodology we will employ to evaluate our models and real-time application for web tracker detection.
+The methodology encompasses data collection, model training, evaluation metrics, and real-time application evaluation. By following
+rigorous scientific methods, we aim to ensure the reliability, accuracy, and practicality of our models and application.
+
+\subsection{Data Collection}
+To gather the necessary data for evaluating our models and real-time application, we will utilize a combination of approaches.
+This will involve conducting web crawls using browsers such as Chrome and Brave. Through these web crawls,
+we will collect a diverse set of web pages representing various domains. These crawls will be performed with Chrome without extensions,
+Chrome with the first model, Chrome with the second model, Chrome with both models and a Brave which has build in ad and tracker blocking.
+The crawler will crawl the Tranco Top 1K websites and generate a browsing graph which includes the visited domains and the HTTP request
+performed on each node.
+
+\subsection{Model Training}
+The training process will involve preprocessing the dataset, including features extraction and
+transformation into a suitable format for training the neural network models. We will use the model architecture by Castell-Uroz et al. \cite{castell2020url}.
+To ensure the generalizability of our models, we will employ cross-validation techniques, such as k-fold cross-validation,
+to assess their performance on different subsets of the data.
+
+\subsection{Evaluation Metrics}
+To evaluate the performance of our models, we will employ standard evaluation metrics commonly used in machine learning
+classification tasks. These metrics include accuracy, precision, recall, F1-score, false positive rate, and false negative rate.
+Accuracy will measure the overall correctness of our models in identifying web trackers. Precision, recall, and F1-score will provide
+insights into the model's ability to accurately classify web trackers and non-trackers. The false positive rate and false negative
+rate will help assess the model's performance in minimizing false positives and false negatives, which directly impact user
+experience and privacy.
+
+\subsection{Real-time Application Evaluation}
+In order to evaluate the performance of our real-time web tracker detection application, we will evaluate the gathered data 
+and look at the browsing graphs to determine the difference in the browsing experience.
+Additionally, we will measure the impact of the web extension on browsing performance, such as page load times and
+resource consumption, to ensure minimal disruption to the user's browsing experience.
 
 
 
