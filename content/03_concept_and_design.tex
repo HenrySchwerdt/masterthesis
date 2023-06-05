@@ -1,5 +1,4 @@
 \chapter{Concept \& Design}
-
 In this chapter we describe the research problem and our solution. Regarding the solution we discuss 
 the ML aspects of this research and the architectural design to get the ML models running in a real-time
 environment.
@@ -105,11 +104,127 @@ the newly crafted feature vector designs. However, it could be possible that the
 for the desired output and does not fit the different feature vectors. There is a chance that a better architecture could 
 lead to a better accuracy result and therefore would better fit the real-time application of the model.
 
-
-
 \subsection{Training-Data}
-\subsection{Frameworks}
+
+Selecting the appropriate training-data is a crucial step in the training of neural networks. The quality and representativeness 
+of the training data directly impact the performance and generalization ability of the network.
+
+The utilization of the model in a real-time web environment necessitates the careful selection of the training dataset.
+In our study, we sought to procure a dataset that aligns with the dynamics and characteristics of real-time web browsing.
+To achieve this, we turned to a comprehensive web crawl conducted by Raschke \cite{raschke_philip_2022_7123945}, which involved the exploration and collection
+of data from the Tranco top 10K websites using the Chrome browser.
+
+The choice of using a Chrome crawl dataset by Raschke holds several advantages for our model's training. Firstly, it is performed 
+using the \emph{t.ex extension} \cite{9972261}, which is a cross browser extension and therefore runs in the same environment as our
+application. Secondly, Chrome is one of the most widely used web browsers globally, making it a representative platform for
+capturing the diverse range of web activities and behaviors.
+
+Furthermore, the Chrome browser by default does not have any tracking protection associated. This leads to more tracking requests being executed
+during the crawl which gives great potential for training a neural network. The dataset comes with 901,012 HTTP requests and responses all in JSON
+format and a label to identify tracking requests from non tracking requests. Moreover, the dataset has been successfully used by Raschke et al. \cite{raschke2023}
+to train a different tracker detection classifier.
+
+For these reason we decided to use this dataset \cite{raschke_philip_2022_7123945} to train our models and further on use these models
+in the real-time application.
+
+\subsection{Real-time Application}
+
+For our real-time application, we focused on creating a cross browser extension. This comes close to current solutions in this area 
+and provides a familiar entry point for users. 
+
+\begin{figure}[ht!]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{images/ExtensionOverview.png}
+  \end{center}
+  \caption{This figure shows the structure of a web extension and its most important components. There are user interface components which 
+  can be used to communicate with the user of the extension such as the popup or the options page. Additionally, there is the content-script
+which can be injected into each HTML page visited by the browser and the background page which can be used to implement the business logic of the extension. All the parts of the 
+extension can communicate over the API provided by the browser.}
+  \label{fig:extOver}
+\end{figure}
+
+Browser extensions are event based programs which can be used to enhance the browsing
+experience. Moreover, browsers provide an API which can be used by the extension programmer to interact with the browser with JavaScript.
+This API can then be used to for example block HTTP requests before they get sent to the server.
+
+As shown in Fig-\ref{fig:extOver} a web extension may consist of a \emph{background} page, a \emph{popup}, \emph{option} pages and
+content-scripts. Once the background script is loaded it can attach to various browser events and react accordingly. The browser API
+provides numerous events \cite{browserApi} including events that allow to read and intercept HTTP requests. Another tool is  
+\emph{content-scripts} which get directly injected every web page opened in the browser and can modify its content using
+JavaScript. A web extension has two methods communicating with the user through a dedicated user interface. Firstly, it is possible
+to provide a popup page to display information or controls. Secondly, it is possible to host an option-page or static HTML serving. This can
+be used to give the user more detailed options or when more screen space is needed.
+
+We want to utilize the advantages of using a web extension as a real-time tracking blocker. Therefore, we implement a background script
+which attaches to the \emph{onBeforeRequest} event to gather information about the request such as the \emph{requestId} and the source URL 
+which initiated the request. Moreover, we also attach to the \emph{onBeforeSendHeaders} event which can be used to block a request and holds
+information about the request headers. With this information we then construct a feature vector and pass it to our ML model and cancel the 
+request depending on the models' confidence. 
+
+Furthermore, to improve usability we implement a popup to show the user the amount of trackers detected on a certain website and show
+each request with the according confidence. Moreover, the user is able to regulate the threshold on which a request is determined a 
+tracking request, and it is possible to enable or disable the blocking of web requests. The default confidence on which a request
+is deemed a tracking is set to 80\%.
+
+The implementation of this application heavily relies on \emph{tensorflow.js} \cite{tensorflowJs} which is a library to port ML models to
+JavaScript. This way we can calculate the feature vector and pass it to the TensorFlow layers model. This is extremely
+performant as tensorflowjs uses WebAssembly to calculate the model and is an important factor in the real-time ability of this application.
+With this concept, we meet the real-time criterion and hope to provide a seamless user-experience.
+
 \subsection{Infrastructure}
+
+As the web industry grows with rapid pace, also web tracker change in structure and technique. This could lead to the model being 
+outdated as the training data is from a specific time. Another infrastructural problem is the use of TPLs as the ground truth. As mentioned
+before these lists are error prune on often just hide certain elements from the DOM. For that reason it is important to gather better 
+training data with better labels. For that reason we also implemented an infrastructure to keep the model up to date and to enable user to
+provide training data with custom labels.
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=1\textwidth]{images/TrackingDetectorInfra.jpg}
+  \end{center}
+  \caption{This figure shows the architecture of the whole application. As for the client side we have the web extension and an admin panel to 
+  monitor the learning rate. Every endpoint proxies through a NGINX gateway. The main service is in charge of storing new data into the training dataset and 
+  to host the trained models. Furthermore, it is includes a job architecture which allows running different jobs based on a CRON pattern. For data storage there is 
+  a bucket storage from \emph{MinIO} and a \emph{MongoDB} to hold the data the main service servers and modifies. Finally, there are multiple training services which are Python based
+  these get triggered by the main service using \emph{XMLRPC}.
+  }
+  \label{fig:tdInfra}
+\end{figure}
+
+As shown in Fig-\ref{fig:tdInfra} a lot of thought went into the creation of a suitable backend for the web extension. The goal of that
+backend is to provide a simple way to train and deploy new ML models to the user of the web extension. The complete backend is divided into
+three main services. The \emph{Tracking-Detector-Dashboard} is the admin panel which allows the admin to monitor learning rates and export 
+training datasets. Through this panel it is also possible to trigger the job based architecture in the \emph{Tracking-Detector-Service}.
+
+Another important aspect of this architecture is the storage of data within this system. For that there are two storage components within this
+architecture. Firstly, the MongoDB is in charge of storing the raw browsing data of the clients and to store the ML model definitions which get 
+trained. Furthermore, the statistics of each training run get stored in that database. The second storage component is a MinIO bucket storage service.
+This storage is utilized to export the raw training-data into easy to process CSV files which can be used to train the models. Moreover, the trained model
+binaries get stored in that storage service.
+
+Besides, the centerpiece of this backend is the \emph{Tracking-Detector-Service}. This service is in charge of processing new data points 
+submitted by the users of the web extension and to gather them into a dataset which gets exported to the MinIO file storage. It also stores 
+the original representation of the data points into a MongoDB such that any dataset representation can be created. Additionally, this service
+is in charge of serving the trained models to the clients, it does that by serving the stored models directly out of the MinIO storage buckets.
+This service is implemented in Kotlin and uses the Spring Boot framework to create a multithreaded server environment. This framework has been choosen
+because of its testability and performance.
+
+Furthermore, the training of the models is done on one of the multiple \emph{Tracking-Detector-Training} services. These services are
+lightweight XMLRPC server implemented in Python. The training gets started by a XMLRPC call to one of the services. After that, the service
+grabs the training data from the MinIO storage bucket and compiles the ML model from the information provided by the XMLRPC call. It then starts
+training the model and returns the model metrics to the \emph{Tracking-Detector-Service}.
+
+As for the usability, we decided to wrap every component into a docker container and host the whole infrastructure in a \emph{docker-compose}
+file which makes it easy to set up. Furthermore, this architecture can be used for all kind of ML based applications as the jobs are simple to extend 
+and the creation of new models can be done via the admin panel. With this backend solution we hope to create an application that continuously creates
+better models and serves them to the clients. Furthermore, we hope to simplify the process of gathering training data and to create a better
+ground truth in the web tracking field.
+
+
+
+
+\subsection{Limitations}
+
 \section{Methodology}
 Literature Review
 Empirical
