@@ -1,4 +1,143 @@
 \chapter{Implementation}
 
-Tech Stack
-interessanten Code erklaren
+In this chapter, we turn our attention to the technical implementation of the concept. In particular, we will look at programming
+peculiarities, as well as the structure of the extension, the infrastructure of the backend and problems that occurred during the implementation.
+
+\section{Web Extension}
+We begin with the implementation of the web extension. To better illustrate the components and implementation decisions we divided this section
+in five different subsections each describing important implementation aspects.
+\subsection{Frameworks}
+The most important framework for this application is \emph{TensorFlow.js} \cite{tensorflowJs}.
+TensorFlow.js is a powerful library used for machine learning tasks in web-based applications.
+It enables the deployment and execution of trained machine learning models directly in web browsers.
+By leveraging the capabilities of JavaScript, TensorFlow.js empowers developers to build and deploy AI-powered
+applications that can run natively in the browser environment, without the need for additional server-side infrastructure.
+
+One of the key features of TensorFlow.js is its ability to leverage the computational power of modern web browsers and GPUs
+to perform complex computations required for training and inference. By utilizing WebGL and WebGPU technologies, TensorFlow.js
+harnesses the parallel processing capabilities of these hardware resources, enabling efficient and high-performance execution
+of machine learning models. This performance and the ability to run TensorFlow models in the browser is the key feature why it is
+used in our extension. Without TesnsorFlow.js the creation of this application would not be possible.
+
+For the user interface we use \emph{Vue.js} \cite{vuejs} which is a versatile JavaScript framework widely used for building user
+interfaces and single-page applications. It provides developers with a robust and intuitive tool set for creating interactive
+and dynamic web applications. Vue.js follows a component-based architecture, allowing developers to encapsulate reusable
+UI components and compose them to build complex user interfaces.
+
+Additionally, we use \emph{Vuetify} \cite{vuetify} which is a popular open-source UI component library for Vue.js, designed
+to facilitate the development of responsive and visually appealing web applications. It offers a comprehensive set of reusable
+components and ready-to-use design patterns. Vuetify follows Material Design principles, which provide consistent and visually
+appealing UI elements. Vue.js and Vuetify build the basis for any user interface in this application as it is simple to use, and 
+the UI components are already used by multiple professional websites.
+
+A web extension is a complex application as it is composed of multiple small applications which communicate through the browsers' API. This
+is especial complicated when dealing with large and complicated extensions. Therefore, we use \emph{Vite} \cite{vite} as a bundler
+for our JavaScript and Vue.js applications. Vite is a fast and lightweight build tool for modern web applications. It provides
+a streamlined development experience by leveraging native ES module imports in the browser. Vite eliminates the need for
+bundling during development, allowing for near-instantaneous hot module replacement (HMR) and faster startup times. Using Vite as a bundler
+for our web extension enables faster development and better testing capabilities.
+
+The use of these frameworks is crucial for the implementation of this web extension as they provide the technologies and the speed to create
+this kind of project in the given timespan. 
+\subsection{Business Logic}
+The business logic of the web extension is located in the background page of the extension. 
+The TensorFlow model gets loaded in \emph{Model.js} component of the extension which is shown in Fig-\ref{fig:Model}.
+\begin{figure}[ht!]
+  \begin{lstlisting}[language=JavaScript]
+// Model.js
+import * as tf from "@tensorflow/tfjs";
+
+const Model = (async () => {
+  const MODEL_URI = browser.runtime.getURL("model/model.json");
+  const model = await tf.loadLayersModel(MODEL_URI);
+  return {
+    predict(features) {
+      return model.predict(features);
+    },
+  };
+})();
+
+export { Model };
+  \end{lstlisting}
+  \caption{This listing shows the loading of the TensorFlow model. The model can only be loaded asynchronously and cannot predict any 
+  requests unless it is loaded completely. The model object gets exported for other components of the background page.}
+  \label{fig:Model}
+\end{figure}
+
+In that component we first import TensorFlow and then locate the path of the \emph{model.json}. Note that this component is asynchronously
+which is problematic because the callback to block web requests is synchronously. We then await the model and return an object with a predict function.
+This function takes a TensorFlow vector as a parameter and passes it to the awaited model. After that it returns the prediction of the model.
+
+The Model component is primarly used in the \emph{RequestBlocker} component which is illustrated in Fig-\ref{fig:blocker}.
+\begin{figure}[ht!]
+  \begin{lstlisting}[language=JavaScript]
+// RequestBlocker.js
+import { Model } from "./Model";
+import { FeatureExtractor } from "./FeatureExtractor";
+import { StatsListener } from "./StatsListener";
+const RequestBlocker = (async () => {
+  let model = await Model;
+  return {
+    check(request) {
+      let encoding = FeatureExtractor.encode(request);
+
+      let result = model.predict(encoding);
+
+      const values = result.dataSync();
+      const arr = Array.from(values);
+
+      return { predict: arr[0], blocked: arr[0] >= StatsListener.getRate() };
+    },
+  };
+})();
+
+export { RequestBlocker };
+\end{lstlisting}
+\caption{The \emph{RequestBlocker} component is in charge of creating the feature vector using the \emph{FeatureExtractor} and passing the 
+result into the \emph{Model}. After that, it returns the prediction score to the callee of the \emph{check} function.}
+\label{fig:blocker}
+\end{figure}
+This component is in charge of passing the created feature vector into the \emph{Model}. The encoding is done in the \emph{FeatureExtractor}
+component which creates the vector and wraps it into a TensorFlow tensor.
+
+
+
+\begin{figure}[ht!]
+\begin{lstlisting}[language=JavaScript]
+// EventListener.js
+const EventListener = (async () => {
+  const urlFilter = { urls: ["http://*/*", "https://*/*"] };
+  const blocker = await RequestBlocker;
+// ...
+    browser.webRequest.onBeforeSendHeaders.addListener(
+       (details) => {
+        setRequest(details.requestId, {
+          requestHeaders: details.requestHeaders,
+        });
+        let result = blocker.check(details);
+        setRequest(details.requestId, {
+          ...result,
+        });
+        pushToQueue(details.requestId);
+        return { cancel: result.blocked && StatsListener.isActive() };
+      },
+      urlFilter,
+      ["requestHeaders", "extraHeaders", "blocking"]
+    );
+// ...
+})();
+\end{lstlisting}
+\caption{This figure shows the code for the web request blocking inside the web extension. The details get passed to the blocker component 
+  which is in charge of calling the ML model to determine weather a request should be blocked. A request can only be blocked when the blocking is
+  activated in the UI. This is indicated with the \emph{isActive} call on the \emph{StatsListener}.
+}
+\end{figure}
+\subsection{User Interface}
+\subsection{Limitations}
+
+\section{Backend}
+\subsection{Frameworks}
+\subsection{Infrastructure}
+\subsection{Business Logic}
+\subsection{User Interface}
+\subsection{Limitations}
