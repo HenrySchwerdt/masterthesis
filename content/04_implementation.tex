@@ -343,7 +343,9 @@ class FeatureExtractorConfiguration {
     }
 }
 \end{lstlisting}
-\caption{}
+\caption{This figure shows the creation of a FeatureExtractor. As shown the FeatureExtractor uses the builder pattern, thus any feature of 
+the request can be encoded with a custom function which can be passed into the configuration. In this example there the two extractors needed
+to generate the training data for our models.}
 \label{fig:Feature}
 \end{figure}
 
@@ -390,7 +392,10 @@ const compose = DockerCompose.builder()
 
 compose.createDockerComposeFile("docker-compose.yaml");
 \end{lstlisting}
-\caption{}
+\caption{This figure demonstrates the use of the developed library. In this example it is used to generate a docker-compose file
+for the TrackingDetectorService to run in with all its dependencies. This infrastructure as code approach makes it easier to
+generate the application infrastructure.
+}
 \label{fig:DockerCompose}
 \end{figure}
 

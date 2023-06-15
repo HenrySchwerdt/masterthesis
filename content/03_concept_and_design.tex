@@ -6,7 +6,7 @@ environment.
 \section{Problem Statement}
 The rise of online tracking techniques poses significant privacy concerns for users while browsing the web.
 Traditional methods of tracking detection, such as static blacklists, are limited in their ability to adapt
-to evolving tracking techniques in real-time. Although ML classifier have been developed to verify and support
+to evolving tracking techniques. Although ML classifier have been developed to verify and support
 the creation of TPLs there is no ML based blocking of malicious HTTP requests. Currently, all web extensions focused on blocking
 ads and tracker use some kind of blocking list. As a result, there is a pressing need for an adaptive real-time application which
 proves the concepts of ML based tracker detection and utilizes them in order to block tracking request while browsing the web.
@@ -68,10 +68,10 @@ To leverage this additional information, we have developed two distinct ML model
 the same underlying model structure, similar to the approach followed by Castell-Uroz et al.
 
 For the first model, we have incorporated 204 features, as illustrated in Fig-\ref{fig:featModel1}. Consistent with Castell-Uroz et al.,
-we have utilized the initial 200 features to encode the request URL. In addition to the URL, we have also encoded the frametype\footnote{frametype},
-which can take one of three distinct values. Furthermore, we have encoded the HTTP method\footnote{method}, which can take
-one of eight distinct values, the request type\footnote{type}, which can take one of twelve distinct values,
-and lastly, the presence of the referrer header\footnote{referrer header}.
+we have utilized the initial 200 features to encode the request URL. In addition to the URL, we have also encoded the frametype\footnote{The "frametype" field in the context of intercepting HTTP requests with a web extension refers to a field that provides information about the type of frame or container within which the request is being made. It helps identify the specific frame that initiated the request, such as the main frame, subframes, iframes, or embedded objects. Analyzing the "frametype" field allows the web extension to gain insights into the hierarchical structure of the web page and make informed decisions about handling or modifying the intercepted requests accordingly. However, the availability and usage of the "frametype" field may vary depending on the specific web extension framework or API being used.},
+which can take one of three distinct values. Furthermore, we have encoded the HTTP method\footnote{The "request method" in HTTP refers to the type of action performed on a specified resource. It is an essential part of the HTTP protocol and determines how servers should handle client requests. Examples of request methods include GET, POST, PUT, and DELETE, each serving a specific purpose in retrieving, submitting, updating, or deleting data. The request method plays a crucial role in defining the behavior and functionality of web applications and APIs.}, which can take
+one of eight distinct values, the request type\footnote{The "request type" in web development refers to the specific type of resource requested by a client's HTTP request, such as fonts, stylesheets, HTML files, or images. It helps the client and server communicate effectively and ensures the appropriate handling and delivery of the requested content.}, which can take one of twelve distinct values,
+and lastly, the presence of the referrer header\footnote{The "referrer header" in web development is an HTTP header field that indicates the URL of the webpage that referred the current request. It is used for tracking and analytics purposes, helping websites analyze user traffic and implement security measures.}.
 
 For the second model, we have incorporated 233 features, as illustrated in Fig-\ref{fig:featModel2}. Similar to the first model,
 we use the encoded request URL, frametype, HTTP method and request type. However, we also encode
@@ -96,7 +96,11 @@ The deep neural network structure is almost identical to Castell-Uroz et al. \ci
 The differences come from the different activation
 function and the different input and output vector dimensions due to the different feature vectors. As Castell-Uroz et al. we use an embedding layer to reduce the bias between the numerical values of the embedded URL string. This embedded 
 representation then gets flattened into a one dimensional vector and put into the four dense layers. Each dense layer has a dropout rate of 50\% to reduce
-overfitting and a ReLU\footnote{Relu} activation function. The last dense layer gets activated by a Sigmoid\footnote{Sigmoid} function to generate an output
+overfitting and a ReLU\footnote{ReLU (Rectified Linear Unit) is a commonly used activation function in neural networks. It 
+introduces non-linearity by outputting the input value if it is positive, and zero otherwise. ReLU is efficient and helps
+networks learn complex patterns. It addresses the vanishing gradient problem but can suffer from the "dying ReLU" issue. Variants
+like Leaky ReLU and Parametric ReLU exist to overcome this problem.} activation function. The last dense layer gets activated
+by a Sigmoid\footnote{The sigmoid activation function is commonly used in neural networks for binary classification tasks. It maps input values to a range between 0 and 1, facilitating gradient-based optimization. However, it may encounter issues such as the vanishing gradient problem and asymmetry around zero. Despite these limitations, the sigmoid function remains a key component in neural network architectures.} function to generate an output
 between zero and one.
 
 By using the neural network structure of Castell-Uroz et al. we hope to achieve similar or better accuracy results with 
