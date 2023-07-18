@@ -18,12 +18,11 @@ which can be seen in Fig-\ref{fig:featModel2}. Moreover, we evaluate the trainin
 at the limitations of this setup.
 
 \subsection{Training}
-In this section, we outline the training process for both Model 1 and Model 2.
+We outline the training process for both Model 1 and Model 2.
 We provide a detailed overview of the training methodology employed, emphasizing the techniques utilized to address
 the class imbalance present in the dataset. The used dataset was generated from a web crawl of the Tranco Top 10K websites. 
-However, the presence of web tracker in comparison to non tracker is significant lower when browsing the web. Therefore,
-there are fewer trackers (256,273) than non-trackers (594,865) present in the dataset. This class imbalances can affect the
-model's performance and bias its predictions towards the majority class, we implemented specific strategies to mitigate this issue.
+However, the presence of web tracker in comparison to non tracker is significant lower when browsing the web. There are fewer trackers (256,273) than non-trackers (594,865) present in the dataset. This class imbalances can affect the
+model's performance and bias its predictions towards the majority class.
 
 To address the class imbalance, we utilized oversampling and undersampling techniques. Initially, we employed the \emph{RandomOverSampler},
 which duplicates instances from the minority class (trackers) to equalize their representation with the majority class (non-trackers).
@@ -35,14 +34,14 @@ classes have a comparable number of instances during model training.
 
 After generating a balanced training set, we constructed the model architecture using a sequential approach in TensorFlow.
 The model architecture is described in Fig-\ref{fig:modelStructure}.
-Furthermore, we compiled the model by defining the loss function and optimizer. For these models, we selected the mean squared
+Furthermore, we compiled the model by selecting the mean squared
 error (MSE) loss function and employed the RMSprop optimizer. The MSE loss function measures the discrepancy between the predicted
 and actual labels, while the RMSprop optimizer adjusts the model's parameters to minimize this loss.
 
-During the training phase, we utilized a training set that comprised the balanced samples (X\_train and y\_train) generated
+During the training phase, we utilized a training set that is comprised of the balanced samples (X\_train and y\_train) generated
 through oversampling and undersampling. The model was trained using this dataset, specifying the batch size (512) and the number
 of epochs (10). To assess the model's performance during training and prevent overfitting, we incorporated a validation set
-(X\_test and y\_test) to monitor the model's progress and detect any signs of under or overfitting.
+(X\_test and y\_test) to monitor the model's progress and to detect any signs of under or overfitting.
 
 Following the completion of the training process, we evaluated the trained model's performance using various metrics.
 We calculated the test loss and test accuracy, which provide insights into the model's overall performance on the unseen
@@ -51,7 +50,7 @@ or non-tracker.
 
 \subsection{Model 1}
 
-Let us present a detailed analysis of the training results and performance of Model 1 in detecting web trackers. Upon completion of
+Upon completion of
 the training process, Model 1 exhibited promising performance on the test dataset. The evaluation metrics provide valuable insights
 into its accuracy, precision, recall, F1-score, and other important measures.
 
@@ -114,7 +113,7 @@ its precision in correctly identifying instances of each class.}
   \label{tab:m1}
 \end{table}
 
-The classification report, which is shown in Tab-\ref{tab:m1}, provides a comprehensive overview of the precision, recall, and F1-score for each class.
+The classification report, which is shown in Tab-\ref{tab:m1}, provides an overview of the precision, recall, and F1-score for each class.
 For non-trackers, Model 1 achieved a precision of 0.98. Precision represents the proportion of true non-trackers
 out of all instances classified as non-trackers. Therefore, a precision of 0.98 indicates that Model 1 has a high precision
 in correctly identifying non-trackers. Out of all instances classified as non-trackers, 98\% are indeed non-trackers.
@@ -260,7 +259,7 @@ In order to evaluate the performance of the real-time application, we conducted 
 To generate the default browser experience we conducted the crawl on a Chrome browser without any extensions installed. For testing
 the application, we conducted a crawl with Model 1, a crawl with Model 2 and a crawl with both models enabled and with a confidence
 rate of 80\%. That means that every prediction of the model that exceeds this confidence will be blocked from execution. The last crawl
-has been performed on a Brave browser which has a build in ad and tracking blocker installed. This crawl should be the baseline to evaluate
+has been performed on a Brave browser which has a build in advertisement and tracking blocker installed. This crawl should be the baseline to evaluate
 the blocking capabilities of the two models. For the analysis, we stored every request that was performed by the browser and created a 
 browsing graph consisting of nodes (requested domains) and edges (requests between these domains).
 
@@ -274,7 +273,7 @@ light on the application's performance.
 \begin{figure}[ht!]  
   \centering
       \includegraphics[width=\linewidth, keepaspectratio]{images/CrawlPlot.png}
-  \caption{This figure shows the relevant information about each crawl of the Tranco Top 1K websites. \emph{DDG trackers} stand for
+  \caption{This figure exhibits the relevant information about each crawl of the Tranco Top 1K websites. \emph{DDG trackers} stand for
   trackers that occur on the DuckDuckGo TPL and \emph{EP tracker} stand for trackers that occur on the EasyPrivacy TPL. The nodes show
 the number of unique domains called, and the requests show the amount of HTTP requests performed during the crawl.}
   \label{fig:CrawlPlot}
@@ -291,10 +290,10 @@ domains. Among these domains, 1,518 were identified as trackers by the DuckDuckG
 as trackers by the EasyPrivacy blocking list. Remarkably, the Chrome browser required a substantial number of 62,207
 requests to load all 1K websites, indicating a high level of web activity.
 
-In stark contrast, the Brave browser exhibited a more privacy-focused behavior during the crawl. It visited a significantly
+In contrast, the Brave browser exhibited a more privacy-focused behavior during the crawl. It visited a significantly
 lower number of domains, specifically 3,678, of which 588 were identified as trackers by the DuckDuckGo blocking list, and 82 were
 classified as trackers by the EasyPrivacy blocking list. Furthermore, the Brave browser executed a much lower count of 43,294
-requests to load all the pages. This marked difference can be attributed to the inherent ad and tracking blocking capabilities 
+requests to load all the pages. This marked difference can be attributed to the inherent advertisement and tracking blocking capabilities 
 that Brave offers out of the box. To evaluate the performance of our models, we employed the Chrome browser as the baseline,
 representing the level of performance our models aimed to surpass, and the Brave browser as the target, representing the desired
 level of performance to be achieved.
@@ -311,7 +310,7 @@ present in its crawl.
 
 However, the analysis becomes more nuanced when we compare the crawls where each individual model was active. Interestingly,
 both models exhibited unique blocking behaviors, resulting in the blocking of different trackers. Consequently, when both models
-were simultaneously active during the crawl, the overall sum of trackers reduced even further. Additionally, we observed that the
+were simultaneously active during the crawl, the overall sum of trackers were reduced even further. Additionally, we observed that the
 combined crawl yielded a lower number of requests compared to the Brave browser crawl, while the count of visited domains
 approached that of the Brave crawl. This finding underscores the importance and effectiveness of having both models active
 simultaneously, as it achieved the optimal performance in our real-time application.
@@ -346,7 +345,7 @@ were able to navigate, interact with content, and utilize website features witho
 However, it is important to acknowledge that in rare cases, certain websites may exhibit minor deviations in appearance or
 functionality when our web extension is active. These deviations, often occur with YouTube videos on YouTube itself or embedded 
 YouTube videos on other websites. These videos do not load whenever there is an advertisement before the video starts. Moreover, 
-authentication with third-party authentication services does not work. Furthermore, advertisement does not get loaded and there empty 
+authentication with third-party authentication services does not work. Furthermore, advertisement does not get loaded and there are empty 
 spaces on the website where an advertisement should have been loaded. These deviations are typically minimal and do not significantly impact
 the overall user experience or the ability to access and consume website content.
 
@@ -387,7 +386,7 @@ performance across a wider range of scenarios.}
     }
 \end{enumerate}
 
-It is important to note that while our web crawls and available data provide valuable insights, they do not offer a 
+It is important to note that while our web crawls and the available data provide valuable insights. They do not offer a 
 comprehensive quantitative assessment of the model's performance. Therefore, conducting more extensive web crawls, user studies,
 and performance evaluations would provide a more accurate and detailed understanding of the web extension's capabilities.
 

@@ -157,7 +157,7 @@ const EventListener = (async () => {
 The RequestBlocker component is used in the \emph{EventListener} component. In that component we await the asynchronous RequestBlocker to 
 use later it synchronously in the callback of the \emph{onBeforeSendHeaders} event which is provided by the browser API. In that callback there 
 some functionality to store the requests to later display them in the user interface. The \emph{check} method gets called with the request details
-provided by the browser API. In order to cancel a request using the browser API it is important to return a JSON object with a cancel field set
+provided by the browser API. To cancel a request using the browser API it is important to return a JSON object with a cancel field set
 to true. In this implementation we pass the model result and check whether the user has activated the blocking of requests.
 
 Note that this is just a small excerpt of the code to demonstrate the usage of the TensorFlow model in this kind of environment. The whole background page
@@ -205,18 +205,18 @@ using Vuetify for the styling and the general components.
 \end{figure}  
 
 The most important user interface regarding the usage of the application is the extension popup which is shown in Fig-\ref{fig:popup}.
-This user interface is in charge of communicating the state of the applications and the identified trackers on the currently visited 
-website to the end user. Moreover, it is important that the popup is simple to use and expressive regarding information about the tracker identified.
+This user interface is in charge of communicating the state of the application and the identified trackers on the currently visited 
+website to the end user. Moreover, it is important that the popup is simple to use and expressive regarding information about the trackers identified.
 To solve this we implemented our popup to consist of three different pages which all display different information about the currently
 visited website. For the navigation between the pages we used the \emph{BottonNavigation} component of Vuetify.
 
-The initial page that a user sees when opening the popup view is the \emph{Home} page which is shown in Fig-\ref{fig:Home}. This page
+The initial when opening the popup view is the \emph{Home} page which is shown in Fig-\ref{fig:Home}. This page
 allows the user to switch the blocking state and to toggle the blocking sensitivity. Whenever a setting is changed the current loaded
 browser tab gets reloaded. Additionally, this page displays brief information about the tracking behavior of the current visited website.
-It shows the current URL, the favicon of that page, the amount of identified tracker and the total and blocked requests that website performed. 
+It shows the URL, the favicon of that page, the amount of identified trackers and the total and blocked requests that website performed. 
 All the user interface for this page is using the Vuetify component system with some CSS modifications for the gradient and the layout.
 
-The \emph{Tracker} page which is shown in Fig-\ref{fig:Tracker} displays more information about the identified tracker on the currently
+The \emph{Tracker} page in Fig-\ref{fig:Tracker} displays more information about the identified trackers on the currently
 visited website. The page includes a list of items with each item representing a tracker domain identified. The item displays the amount of
 request that should go to that domain and the average prediction score of the model. As we use an ML model the scores could vary if some parameter
 of the feature vector changes. Therefore, we calculate and show the average for each tracker listed in the list view.
@@ -225,7 +225,7 @@ Moreover, the \emph{Requests} page, which is displayed in Fig-\ref{fig:Requests}
 whether a request was blocked, the request initiator, the request method and prediction score of the model. Additionally, there are buttons to store all or each request as JSON into the clipboard.
 This JSON string includes all the information collected by the background page. This feature is mainly for debugging and data analysis.
 
-Furthermore, there is an option page under development which should create a seamless integration into the designed backend.
+There is an option page under development which should create a seamless integration into the designed backend.
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.95\textwidth]{images/LabelsPage.png}
@@ -236,8 +236,8 @@ Furthermore, there is an option page under development which should create a sea
 \end{figure}
 The option page is divided into three different pages which can be navigated through the navigation drawer provided by Vuetify. The landing 
 page gives a brief introduction on how this application works and how the user can participate to create a better ground truth for the ML models.
-The \emph{About} page list general information on how to cite this work and the authors of this application. The \emph{Labels} page which is 
-shown in Fig-\ref{fig:LabelsPage} is the page responsible for showing the chunks the user browsed through and allows them to label each request
+The \emph{About} page list general information on how to cite this work and the authors of this application. The \emph{Labels} page in Fig-\ref{fig:LabelsPage} is responsible
+for showing the chunks the user browsed through and allows labeling each request
 individually. The chunks come from the background page and get loaded into the options page. Each chunk consists of 100 requests in JSON format 
 which can be labeled in the browser. 
 \begin{figure}
@@ -253,9 +253,9 @@ which can be labeled in the browser.
 
 
 This labeling process has its own user interface which can be seen in Fig-\ref{fig:Labeling}. The user can inspect all the collected information
-about the specific request in JSON format. After that, the user can decide whether the request is a tracking request or not. This can be done via 
-the buttons on the below the JSON view. Whenever, the user labeled a specific request it is possible to go to the next request. When a batch is
-completed the user can send the labeled data to the backend service. In the backend this data gets collected and encoded into a dataset for ML
+about the specific request in JSON format and the user can decide whether the request is a tracking request or not. This can be done via 
+the buttons below the JSON view. Whenever, the user labeled a specific request it is possible to go to the next request. When a batch is
+completed the user can send the labeled data to the backend service, where this data gets collected and encoded into a dataset for ML
 models to train on. 
 
 \subsection{Limitations}
@@ -280,8 +280,11 @@ we can establish a more flexible and scalable architecture that promotes code re
 
 \section{Backend}
 In this section we look at the backend implementation, discuss the used technologies and look at essential code
-snippets inside the codebase.
+snippets inside the codebase. In the first section \ref{sec:techframe} we inspect the different technologies and frameworks 
+which were used to build this backend architecture. We continue with section \ref{sec:bl1} by investigating the
+business logic and the core components. After that, we look at the user interface \ref{sec:ui1} and the limitations of this architecture \ref{sec:lim1}. 
 \subsection{Technologies \& Frameworks}
+\label{sec:techframe}
 The backend implementation of the web extension leverages a range of technologies and frameworks to facilitate efficient and scalable
 processing which can be seen in Fig-\ref{fig:tdInfra}. The microservice architecture was chosen as the foundation for the backend, allowing for modular and independent services
 that can be developed, deployed, and scaled individually. One of the key considerations in selecting these technologies was the
@@ -293,14 +296,14 @@ with Kotlin. This combination offers several advantages, including the ability t
 Given the computational-intensive nature of tasks such as creating datasets from the data stored in MongoDB, a multithreaded
 server environment is crucial to ensure efficient processing and responsiveness.
 
-For the frontend component, the Nuxt framework is employed as a server and serves as an administrative dashboard
+For the frontend component, the Nuxt\footnote{Nuxt.js is an open-source framework based on Vue.js, known for creating server-side rendered and statically generated applications. It offers powerful features like code splitting, server-side rendering, and dynamic imports, making it easy to build fast, SEO-friendly, and scalable applications.} framework is employed as a server and serves as an administrative dashboard
 for the TrackingDetector Service. This dashboard allows users to interact with the service, initiate job runs through
 the user interface, and access logs from past job executions. The job scheduling in the system is primarily accomplished
 through CRON triggers, ensuring regular and automated execution of tasks.
 
 To facilitate secure and controlled access to the architecture, all traffic is routed through an NGINX server. This server
 acts as a reverse proxy, providing an additional layer of security and managing incoming requests. It ensures that only
-the TrackingDetector Service and the Admin Dashboard are accessible from outside the architecture, safeguarding the integrity
+the TrackingDetector Service and the Administrator Dashboard are accessible from outside the architecture, safeguarding the integrity
 of the system.
 
 The implementation of this architecture is facilitated by the use of Docker, which allows for containerization of each microservice.
@@ -317,24 +320,25 @@ while Docker containerization facilitates easy deployment and maintenance. The c
 provides a powerful and flexible environment for implementing the TrackingDetector Service and its accompanying administrative dashboard. Together, these technologies enable the realization of a high-performance and reliable web extension for effective web tracker detection and management.
 
 \subsection{Business Logic}
+\label{sec:bl1}
 
-The main component of this infrastructure is the Tracking Detector Service which manages all the training and data set creation of
+The main component of this infrastructure is the Tracking Detector Service which manages all the training and data set creation from the collected
 the request data. It stores request data and generates CSV exports and starts the training of the models via XMLRPC. The service provides
 13 endpoints and three jobs which run every two weeks. 
-The \emph{CleanUpJob} deletes old run information from previous jobs so that the MongoDB is fresh and does not get
+The \emph{CleanUpJob} purges old run information from previous jobs so that the MongoDB is fresh and does not get
 flooded with numerous of job runs that are not needed. The \emph{ModelTrainingJob} loops over all the \emph{KerasModelDefinitions}, which are TensorFlow
 model definitions stored in JSON format which can be used to create a model in a specific configuration, in the MongoDB
-and trains them calling a XMLRPC method on the Python RPC Server. This Python server then stores creates a TensorFlow model based on the sent JSON 
+and trains them calling a XMLRPC method on the Python RPC Server. The Python server creates a TensorFlow model based on the JSON 
 configuration and trains it with the provided name of the training data file. After that, it stores the trained model in the MinIO
 bucket for models. 
 
-The \emph{RequestDataExportJob} is in charge of generating a compressed CSV dataset out of the requests stored in the MongoDB database. As we want 
-to have a lot flexibilty when creating datasets we created a \emph{FeatureExtractor} class. This class is highly customizable as it takes higher order functions
-to encode an every item in the Request class. This allows for a simple creation of new FeatureExtractors which can then be used in the job to create new datasets.
-Fig-\ref{fig:Feature} shows the two configurations that are currently in use to create a dataset. For every new export we want to provide we 
-can create a new FeatureExtractor configuration which can then be used in the Job. To make the code simpler we introduced a helper class which 
-holds commonly used extractor functions as public constants. The rest of the implementation of all the services is available on Github \cite{trackingDetectorInfra} as there is
-a lot of setup code we want to shift our focus on the deployment of the application.
+The \emph{RequestDataExportJob} generates a compressed CSV dataset out of the requests stored in the MongoDB database. As we want 
+to have flexibility when creating datasets we created a \emph{FeatureExtractor} class. This class is highly customizable as it
+takes higher order functions
+to encode every item in the Request class. This allows for a simple creation of new FeatureExtractors which can then be used in the job to create new datasets.
+Fig-\ref{fig:Feature} shows the two configurations that are used to create a dataset. For every new export we
+create a new FeatureExtractor configuration which can be used in the Job. To make the code simpler we introduced a helper class which 
+holds commonly used extractor functions as public constants. The rest of the implementation of all the services is available on Github \cite{trackingDetectorInfra}.
 \begin{figure}[ht!]
 \begin{lstlisting}[language=Kotlin]
 @Configuration
@@ -365,21 +369,24 @@ class FeatureExtractorConfiguration {
     }
 }
 \end{lstlisting}
-\caption{This figure shows the creation of a FeatureExtractor. As shown the FeatureExtractor uses the builder pattern, thus any feature of 
-the request can be encoded with a custom function which can be passed into the configuration. In this example there the two extractors needed
+\caption{This figure shows the creation of a FeatureExtractor. It uses the builder pattern, thus any feature of 
+the request can be encoded with a custom function which can be passed into the configuration. In this example the two extractors needed
 to generate the training data for our models.}
 \label{fig:Feature}
 \end{figure}
 
 A simple deployment strategy for a microservice architecture is important because there are a lot of components which need to work
-together in order to get the system running. In order to create such a deployment strategy we use Docker. Each service in our architecture
-pushes a Docker image to Dockerhub which then can be used to create a container with the running service in it. To set up the whole
-infrastructure we use docker compose which allows us to start multiple images with a simple configuration file. 
+together. To create such a deployment strategy we use Docker. Each service in our architecture
+pushes a Docker image to Docker hub\footnote{Docker Hub is a cloud-based repository for sharing and accessing container images.
+It simplifies the deployment of containerized applications and supports automated builds and versioning.} which then can be used 
+to create a container with the running service. To set up the whole
+infrastructure we use docker compose which allows starting multiple images with a simple configuration file. 
 
-However, for this infrastructure it is important to simply adjust the number of training services. This can be a tedious task because 
+However, for this infrastructure it is important to adjust the number of training services. This can be a tedious task because 
 it is necessary to create multiple services in the configuration and adjust the environment variable for the TrackingDetectorService so that
-it knows that there are more resources to work with. To mitigate this problem we created a wrapper for the configuration file so that it can
-be created using JavaScript. For that we created a small library which provides wrapper for each configuration component. With that it is easier
+it knows the resources to work with. To mitigate this problem we created a wrapper for the configuration file so that it can
+be created using JavaScript. For that we created a small library which provides wrapper for each configuration component. With 
+that it is easier
 to change the configuration of the infrastructure and reference different values on each component.
 
 \begin{figure}[ht!]
@@ -421,10 +428,10 @@ generate the application infrastructure.
 \label{fig:DockerCompose}
 \end{figure}
 
-To better showcase this configuration we demonstrate how to deploy our TrackingDetectorService using this approach. The code for this 
+To better showcase this configuration we demonstrate how to deploy our TrackingDetectorService using this approach. The code of this 
 example is shown in Fig-\ref{fig:DockerCompose}. First we define the necessary services. In this case we initiate the MinIO service and 
 the MongoDB service and its volumes. Then we define an environment for the service to run in.  After that, we create the TrackingDetectorService which gets pulled from an image. We declare that 
-in order to run this service we need the MongoDB and the MinIO service running. After creating all the components we create a Docker Compose class
+in order to run this service we need the MongoDB and the MinIO service running. After having created all the components we create a Docker Compose class
 and run the create method to create a docker compose YAML which can be started using docker. With this approach we have more control over the 
 infrastructure and can simply add new services without worrying about forgetting to add the right environment variables. This is especially useful
 in cases were we need multiple instances of the same service. Now it is possible to wrap them into a loop and create computed names and references
@@ -432,12 +439,15 @@ to these services.
 
 
 \subsection{User Interface}
+\label{sec:ui1}
 
 The user interface for this backend only consists of the administrative dashboard. This dashboard is a Nuxt application server which host the website to interact with the TrackingDetectorService. Its main purpose is to monitor the job behavior and to give greater insights into
-the applications. In the future we want to implement a monitor for the model performance which shows the model accuracy over every training run.
+the applications. In this dashboard it is possible to trigger exports of the MongoDB database into training-data sets and to start the
+training of the different models. Moreover, it is possible to analyze the models' performance against the different datasets. In the future we want to implement a monitor for the model performance which shows the model accuracy over every training run.
 This could be interesting because as the data changes the model accuracy changes as well.
 
 \subsection{Limitations}
+\label{sec:lim1}
 While the backend implementation of the web extension offers robust functionality and scalability, there are certain limitations
 that need to be addressed to ensure data privacy, security, and access control.
 
@@ -453,13 +463,13 @@ can alleviate concerns related to data breaches and ensure that individuals who 
 without compromising their privacy.
 
 It is worth noting that the availability of day-to-day usage data is relatively limited compared to the datasets obtained from website
-crawls. Consequently, the backend implementation should prioritize the implementation of stringent security measures to protect the
+crawls. Consequently, the backend infrastructure should prioritize the implementation of stringent security measures to protect the
 privacy and confidentiality of the data collected from website crawls. This includes encryption, access controls, and secure storage
 practices to mitigate the risk of data breaches and unauthorized access to sensitive information.
 
 Addressing these limitations will significantly enhance the overall security, privacy, and user experience of the web extension.
 By implementing robust authentication mechanisms, anonymization techniques, and stringent security measures, the backend can ensure
-that only authorized users can access the admin dashboard and contribute data to the dataset. Additionally, the elimination of sensitive
+that only authorized users can access the Administrator dashboard and contribute data to the dataset. Additionally, the elimination of sensitive
 information from collected data will alleviate privacy concerns, allowing users to contribute their day-to-day usage data without fear
 of compromising their personal information. These improvements are crucial for building a trustworthy and privacy-conscious backend
 system for web tracker detection.
