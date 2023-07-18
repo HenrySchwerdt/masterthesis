@@ -60,7 +60,7 @@ into its accuracy, precision, recall, F1-score, and other important measures.
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth ]{images/M1_ACC_fin.png}
-      \caption{This figure shows the accuracy of the model in training process. The x-axis shows the training epoch and the y-axis 
+      \caption{This figure exhibits the accuracy of Model 1 in training process. The x-axis shows the training epoch and the y-axis 
       displays the accuracy. The blue graph shows the accuracy on the training data and the orange graph shows the accuracy on the test data.
     The plot shows that the model convergence and generalizes well with the underlying training data. }
       \label{fig:accM1}
@@ -69,14 +69,14 @@ into its accuracy, precision, recall, F1-score, and other important measures.
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth, keepaspectratio]{images/M1_Loss_Fin.png}
-      \caption{This figure shows the loss of the model training process. The x-axis shows the training epoch whereas the y-axis shows
+      \caption{This figure manifests the loss of Model 1 during the training process. The x-axis shows the training epoch whereas the y-axis shows
       the training loss. The blue graph explains the loss on the training data whereas the orange graph explains the loss on the test data. 
       This graphs additionally underlines that the model convergence and generalizes well.
     }
       \label{fig:lossM1}
   \end{subfigure}
   \label{}
-  \caption{This figure shows the loss and the accuracy of Model 1 regarding the training epoch. Both figures show a great convergence and generalization.}
+  \caption{This figure unveils the loss and the accuracy of Model 1 regarding the training epoch. Both figures show a great convergence and generalization.}
 \end{figure}
 As shown in Fig-\ref{fig:lossM1}, the test loss obtained for Model 1 was \emph{0.019}, indicating the average dissimilarity between the 
 predicted and actual labels. A lower test loss indicates better model performance, suggesting that model 1 achieved good alignment
@@ -166,17 +166,17 @@ in detecting non-trackers.
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth ]{images/Model2Acc.png}
-      \caption{This figure shows the accuracy of the model in training process. The x-axis shows the training epoch and the y-axis 
+      \caption{This figure illustrates the accuracy of the model in training process. The x-axis shows the training epoch and the y-axis 
       displays the accuracy. The blue graph shows the accuracy on the training data and the orange graph shows the accuracy on the test data.
-    The plot shows that the model convergence and generalizes well with the underlying training data.}
+    The plot demonstrates that the model convergence and generalizes well with the underlying training data.}
       \label{fig:accM2}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth, keepaspectratio]{images/M2_Loss_Fin.png}
-      \caption{This figure shows the loss of the model training process. The x-axis shows the training epoch whereas the y-axis shows
-      the training loss. The blue graph explains the loss on the training data whereas the orange graph explains the loss on the test data. 
+      \caption{This figure presents the loss of the model training process. The x-axis reveals the training epoch whereas the y-axis depicts
+      the training loss. The blue graph explains the loss on the training data whereas the orange graph elaborates the loss on the test data. 
       This graphs additionally underlines that the model convergence and generalizes well.
     }
       \label{fig:lossM2}
@@ -213,10 +213,7 @@ identify tracker instances, although with a slightly lower precision and recall 
     \end{tabular}
   \end{center}
 
-  \caption{The table displays the classification report for Model 2, which was trained to identify trackers and non-trackers
-  in web requests. The report showcases the performance metrics, including precision, recall, and F1-score, for each class.
-The table highlights the model's precision in accurately classifying instances of non-trackers and trackers, providing insights into
-its classification capabilities.}
+  \caption{Consequently, this table presents the classification report for Model 2.}
   \label{tab:m2}
 \end{table}
 Analyzing the classification report, which is shown in Tab-\ref{tab:m2}, we observe an overall accuracy of 0.98, indicating that Model 2 correctly
@@ -273,17 +270,17 @@ light on the application's performance.
 \begin{figure}[ht!]  
   \centering
       \includegraphics[width=\linewidth, keepaspectratio]{images/CrawlPlot.png}
-  \caption{This figure exhibits the relevant information about each crawl of the Tranco Top 1K websites. \emph{DDG trackers} stand for
-  trackers that occur on the DuckDuckGo TPL and \emph{EP tracker} stand for trackers that occur on the EasyPrivacy TPL. The nodes show
-the number of unique domains called, and the requests show the amount of HTTP requests performed during the crawl.}
+  \caption{This figure exhibits the relevant information about each crawl of the Tranco Top 1K websites. The label \emph{DDG trackers}
+    is a synonym for trackers which occur on the DuckDuckGo TPL. Moreover, \emph{EP trackers} are trackers that occur on the EasyPrivacy TPL. The \emph{nodes} show
+  the number of unique domains called, and the \emph{requests} show the amount of HTTP requests performed during the crawl.}
   \label{fig:CrawlPlot}
 \end{figure}
 Fig-\ref{fig:CrawlPlot} showcases the relevant information gleaned from each crawl of the Tranco Top 1K websites. The bar charts in
 the figure offer a comprehensive overview of the crawl data, providing insights into various aspects. The first bar in each
 chart represents the number of legal entities, indicating the count of unique domains that were requested during the crawl.
 The subsequent bar depicts the number of executed requests made to these legal entities. Moving forward, the following two bars
-illustrate the number of trackers identified among the legal entities. The first bar reflects the trackers labeled by the DuckDuckGo
-blocking list, while the second bar corresponds to the trackers labeled by the EasyPrivacy blocking list.
+illustrate the number of trackers identified among the legal entities. The first bar reflects the trackers labeled by the DuckDuckGo\footnote{The DuckDuckGo Tracking Protection List (TPL) is a curated set of rules used by the DuckDuckGo search engine to enhance user privacy and security. It consists of domain names and patterns associated with trackers, analytics scripts, and other online tracking methods. By blocking these elements, DuckDuckGo TPL helps prevent third-party sites from collecting user data and delivering targeted ads. The list can be found here: \url{https://github.com/duckduckgo/tracker-blocklists}}
+blocking list, while the second bar corresponds to the trackers labeled by the EasyPrivacy\footnote{EasyPrivacy is a well-known and widely used tracking protection list that is part of the larger EasyList project. As a comprehensive solution, EasyPrivacy is specifically designed to enhance user privacy and security while browsing the internet. It achieves this by blocking various tracking elements, such as cookies, web beacons, and tracking scripts, that are often employed by advertisers and data collection companies to monitor user behavior and deliver targeted advertisements. The list can be found here: \url{https://github.com/easylist/easylist}} blocking list.
 
 Examining the initial crawl performed on the Chrome browser without any extensions, we discovered a total of 5,546 unique
 domains. Among these domains, 1,518 were identified as trackers by the DuckDuckGo blocking list, while 745 were labeled

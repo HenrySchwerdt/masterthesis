@@ -72,7 +72,7 @@ const Model = (async () => {
 
 export { Model };
   \end{lstlisting}
-  \caption{This listing shows the loading of the TensorFlow model. The model can only be loaded asynchronously and cannot predict any 
+  \caption{This listing displays the code which is in charge of loading the TensorFlow model. The model can only be loaded asynchronously and cannot predict any 
   requests unless it is loaded completely. The model object gets exported for other components of the background page.}
   \label{fig:Model}
 \end{figure}
@@ -148,7 +148,7 @@ const EventListener = (async () => {
 // ...
 })();
 \end{lstlisting}
-\caption{This figure shows the code for the web request blocking inside the web extension. The details get passed to the blocker component 
+\caption{This listing illustrates the code for the web request blocking inside the web extension. The details get passed to the blocker component 
   which is in charge of calling the ML model to determine weather a request should be blocked. A request can only be blocked when the blocking is
   activated in the UI. This is indicated with the \emph{isActive} call on the \emph{StatsListener}.
 }
@@ -199,7 +199,7 @@ using Vuetify for the styling and the general components.
     method is shown for each request.}
       \label{fig:Requests}
   \end{subfigure}
-  \caption{This figure shows the user interface of the popup. The user interface consists of three different pages which
+  \caption{This figure displays the user interface of the popup. The user interface consists of three different pages which
   serve different purposes.}
   \label{fig:popup}
 \end{figure}  
@@ -230,7 +230,7 @@ There is an option page under development which should create a seamless integra
   \begin{center}
     \includegraphics[width=0.95\textwidth]{images/LabelsPage.png}
   \end{center}
-  \caption{This figure shows the options page of the \emph{Tracking Detector} extension. In specific the \emph{Labels} page is shown which 
+  \caption{This figure illustrates the options page of the \emph{Tracking Detector} extension. In specific the \emph{Labels} page is shown which 
   is used to show chunks of request data which the user can label by itself and send to the training backend.}
   \label{fig:LabelsPage}
 \end{figure}
@@ -244,7 +244,7 @@ which can be labeled in the browser.
   \begin{center}
     \includegraphics[width=0.95\textwidth]{images/Labeling.png}
   \end{center}
-  \caption{This figure shows the labeling process of a singular request. The user can see every detail collected by the 
+  \caption{This figure presents the labeling process of a singular request. The user can see every detail collected by the 
   background page and can then decide whether the request is a tracking request. After labeling the request the user can 
   go to the next request which then updates the progress bar.
 }
@@ -369,7 +369,7 @@ class FeatureExtractorConfiguration {
     }
 }
 \end{lstlisting}
-\caption{This figure shows the creation of a FeatureExtractor. It uses the builder pattern, thus any feature of 
+\caption{This figure unveils the creation of a FeatureExtractor. It uses the builder pattern, thus any feature of 
 the request can be encoded with a custom function which can be passed into the configuration. In this example the two extractors needed
 to generate the training data for our models.}
 \label{fig:Feature}

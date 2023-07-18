@@ -45,7 +45,7 @@ features for tracker detection likely appear at the end of the URL string.
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth ]{images/model1.png}
-      \caption{This figure shows the encoding of the feature vector for the first model. The feature vector includes 204 features. The first 200 features are reserved for the encoded URL
+      \caption{This figure reveils the encoding of the feature vector for the first model. The feature vector includes 204 features. The first 200 features are reserved for the encoded URL
    string. The four following features include the frametype encoded from one to three, the HTTP method encoded from one to eight, the 
  request type encoded from one to twelve and the presence of the referrer header encoded from zero to one.}
       \label{fig:featModel1}
@@ -54,7 +54,7 @@ features for tracker detection likely appear at the end of the URL string.
   \begin{subfigure}[b]{.47\textwidth}
       \centering
       \includegraphics[width=\linewidth, keepaspectratio]{images/model2.png}
-      \caption{This figure shows the encoding of the feature vector for the second model. The feature vector includes 233 features. Similar to the 
+      \caption{This figure illustrates the encoding of the feature vector for the second model. The feature vector includes 233 features. Similar to the 
         first model this model also uses the encoded request URL, frametype, HTTP method and request type. Additionally, this vector includes 30 characters
         of the request initiator URL.
       }
@@ -83,7 +83,7 @@ initiator URL gets encoded like the request URL and added after the encoding of 
   \begin{center}
     \includegraphics[width=0.7\textwidth]{images/DL.png}
   \end{center}
-  \caption{This figure shows the deep learning model for both feature vectors. The different layers are shown on left column of the table. The input
+  \caption{This figure explains the deep learning model for both feature vectors. The different layers are shown on left column of the table. The input
   and output dimensions for each layer are shown in the other two columns.}
   \label{fig:modelStructure}
 \end{figure}
@@ -142,7 +142,7 @@ and provides a familiar entry point for users.
   \begin{center}
     \includegraphics[width=0.75\textwidth]{images/ExtensionOverview.png}
   \end{center}
-  \caption{This figure shows the structure of a web extension and its most important components. There are user interface components which 
+  \caption{This figure unveils the structure of a web extension and its most important components. There are user interface components which 
   can be used to communicate with the user of the extension such as the popup or the options page. Additionally, there is the content-script
 which can be injected into each HTML page visited by the browser and the background page which can be used to implement the business logic of the extension. All the parts of the 
 extension can communicate over the API provided by the browser.}
@@ -188,7 +188,7 @@ provide training data with custom labels.
   \begin{center}
     \includegraphics[width=1\textwidth]{images/TrackingDetectorInfra.jpg}
   \end{center}
-  \caption{This figure shows the architecture of the whole application. As for the client side we have the web extension and an admin panel to 
+  \caption{This figure depicts the architecture of the whole application. As for the client side we have the web extension and an admin panel to 
   monitor the learning rate. Every endpoint proxies through a NGINX gateway. The main service is in charge of storing new data into the training dataset and 
   to host the trained models. Furthermore, it is includes a job architecture which allows running different jobs based on a CRON pattern. For data storage there is 
   a bucket storage from \emph{MinIO} and a \emph{MongoDB} to hold the data the main service servers and modifies. Finally, there are multiple training services which are Python based
