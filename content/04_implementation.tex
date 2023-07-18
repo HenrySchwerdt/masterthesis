@@ -1,12 +1,18 @@
 \chapter{Implementation}
+\label{cha:implementation}
 
 In this chapter, we turn our attention to the technical implementation of the concept. In particular, we will look at programming
 peculiarities, as well as the structure of the extension, the infrastructure of the backend and problems that occurred during the implementation.
 
 \section{Web Extension}
 We begin with the implementation of the web extension. To better illustrate the components and implementation decisions we divided this section
-in five different subsections each describing important implementation aspects.
+in five different subsections each describing important implementation aspects. In section \ref{sec:frameworks} we discuss the frameworks
+and libraries which are required in order to implement the extension. Following up in section \ref{sec:bl} we explain the business logic 
+the extension and look at implementation details. In section \ref{sec:ui} we show the user interface and explain how a user can interact with
+the application. In the final section \ref{sec:lim} we show limitations of the application in its infrastructure and its design. Moreover, we give
+an outlook on how the extension can be improved in future iterations.
 \subsection{Frameworks}
+\label{sec:frameworks}
 The most important framework for this application is \emph{TensorFlow.js} \cite{tensorflowJs}.
 TensorFlow.js is a powerful library used for machine learning tasks in web-based applications.
 It enables the deployment and execution of trained machine learning models directly in web browsers.
@@ -16,7 +22,7 @@ applications that can run natively in the browser environment, without the need 
 One of the key features of TensorFlow.js is its ability to leverage the computational power of modern web browsers and GPUs
 to perform complex computations required for training and inference. By utilizing WebGL and WebGPU technologies, TensorFlow.js
 harnesses the parallel processing capabilities of these hardware resources, enabling efficient and high-performance execution
-of machine learning models. This performance and the ability to run TensorFlow models in the browser is the key feature why it is
+of machine learning models. This high performance and the ability to run TensorFlow models in the browser is the key feature why it is
 used in our extension. Without TesnsorFlow.js the creation of this application would not be possible.
 
 For the user interface we use \emph{Vue.js} \cite{vuejs} which is a versatile JavaScript framework widely used for building user
@@ -31,24 +37,31 @@ appealing UI elements. Vue.js and Vuetify build the basis for any user interface
 the UI components are already used by multiple professional websites.
 
 A web extension is a complex application as it is composed of multiple small applications which communicate through the browsers' API. This
-is especial complicated when dealing with large and complicated extensions. Therefore, we use \emph{Vite} \cite{vite} as a bundler
+is especially complicated when dealing with large and complex extensions. Therefore, we use \emph{Vite} \cite{vite} as a bundler
 for our JavaScript and Vue.js applications. Vite is a fast and lightweight build tool for modern web applications. It provides
 a streamlined development experience by leveraging native ES module imports in the browser. Vite eliminates the need for
 bundling during development, allowing for near-instantaneous hot module replacement (HMR) and faster startup times. Using Vite as a bundler
 for our web extension enables faster development and better testing capabilities.
 
-The use of these frameworks is crucial for the implementation of this web extension as they provide the technologies and the speed to create
+The use of these frameworks is crucial for the implementation of our web extension as they provide the technologies and the speed to create
 this kind of project in the given timespan. 
 \subsection{Business Logic}
+\label{sec:bl}
 The business logic of the web extension is located in the background page of the extension. 
 The TensorFlow model gets loaded in \emph{Model.js} component of the extension which is shown in Fig-\ref{fig:Model}.
 \begin{figure}[ht!]
   \begin{lstlisting}[language=JavaScript]
 // Model.js
 import * as tf from "@tensorflow/tfjs";
-
+/*
+The component which is in charge of loading the TensorFlowJs model 
+and providing the predict function which can be used to predict 
+a given feature vector.
+*/ 
 const Model = (async () => {
+  // First determine the resource URL to the model.json file which includes all the metadata to the given model
   const MODEL_URI = browser.runtime.getURL("model/model.json");
+  // Then we pass the URI into the tensorflow function which downloads the model structure and the model weights and stores them into memory
   const model = await tf.loadLayersModel(MODEL_URI);
   return {
     predict(features) {
@@ -64,8 +77,8 @@ export { Model };
   \label{fig:Model}
 \end{figure}
 
-In that component we first import TensorFlow and then locate the path of the \emph{model.json}. Note that this component is asynchronously
-which is problematic because the callback to block web requests is synchronously. We then await the model and return an object with a predict function.
+In that component we first import TensorFlow and then locate the path of the \emph{model.json}. Note that this component is asynchronous
+which is problematic because the callback to block web requests is synchronous. We await the model and return an object with a predict function.
 This function takes a TensorFlow vector as a parameter and passes it to the awaited model. After that it returns the prediction of the model.
 
 \begin{figure}[ht!]
@@ -74,6 +87,10 @@ This function takes a TensorFlow vector as a parameter and passes it to the awai
 import { Model } from "./Model";
 import { FeatureExtractor } from "./FeatureExtractor";
 import { StatsListener } from "./StatsListener";
+/*
+The definition of the component which is in charge of feeding the
+feature vector in the TensorFlowJs model.
+*/
 const RequestBlocker = (async () => {
   let model = await Model;
   return {
@@ -98,8 +115,8 @@ result into the \emph{Model}. After that, it returns the prediction score to the
 \end{figure}
 The Model component is primarily used in the \emph{RequestBlocker} component which is illustrated in Fig-\ref{fig:blocker}. The RequestBlocker
 component is in charge of blocking certain requests exceeding the user set threshold. It does that by awaiting the Model component so that 
-it can be used synchronously and returns a check method which takes a request JSON object as a parameter. After that, the \emph{FeatureExtractor}
-is called to encode the request into a numeric tensor representation. This encoded feature vector then gets passed to the model which returns
+it can be used synchronous, and it returns a check method which takes a request JSON object as a parameter. The \emph{FeatureExtractor}
+is called to encode the request into a numeric tensor representation. This encoded feature vector gets passed to the model which returns
 a tensor with prediction value. In order to load the data of the tensor the \emph{dataSync} method is called. After that, the \emph{check}
 method returns a JSON object with the prediction score and whether a request should be blocked or not. This is done by comparing the model result
 with the user set threshold in the \emph{StatsListener} component.
@@ -111,15 +128,18 @@ const EventListener = (async () => {
   const blocker = await RequestBlocker;
 // ...
     browser.webRequest.onBeforeSendHeaders.addListener(
+      // Here we add an EventListener to the onBeforeSendHeaders event.
        (details) => {
         setRequest(details.requestId, {
           requestHeaders: details.requestHeaders,
         });
+        // We check whether the request is concidered a tracking request by passing all available information into the blocker component
         let result = blocker.check(details);
         setRequest(details.requestId, {
           ...result,
         });
         pushToQueue(details.requestId);
+        // We send a blocking signal whenever the result is true and the blocking setting is active
         return { cancel: result.blocked && StatsListener.isActive() };
       },
       urlFilter,
@@ -134,9 +154,9 @@ const EventListener = (async () => {
 }
 \end{figure}
 
-The RequestBlocker component is used in the \emph{EventListener} component. In that component we await the asynchronous RequestBlocker to later
-use it synchronously in the callback of the \emph{onBeforeSendHeaders} event which is provided by the browser API. In that callback there 
-some functionallity to store the requests to later display them in the user interface. The \emph{check} method gets called with the request details
+The RequestBlocker component is used in the \emph{EventListener} component. In that component we await the asynchronous RequestBlocker to 
+use later it synchronously in the callback of the \emph{onBeforeSendHeaders} event which is provided by the browser API. In that callback there 
+some functionality to store the requests to later display them in the user interface. The \emph{check} method gets called with the request details
 provided by the browser API. In order to cancel a request using the browser API it is important to return a JSON object with a cancel field set
 to true. In this implementation we pass the model result and check whether the user has activated the blocking of requests.
 
@@ -145,6 +165,7 @@ is also in charge of collecting requests to later display them and to order the 
 responsible to send the collected data to the storage from which the frontend can retrieve it. The full source code of this web extension is open-source
 and listed on GitHub \cite{trackingDetector}.
 \subsection{User Interface}
+\label{sec:ui}
 In this section we turn our focus on the user interface which is the part of the application visible to the end user. Most of the user 
 interface for this application is located in the popup of the web extension. As mentioned before the user interface is a Vue.js application
 using Vuetify for the styling and the general components.
@@ -238,6 +259,7 @@ completed the user can send the labeled data to the backend service. In the back
 models to train on. 
 
 \subsection{Limitations}
+\label{sec:lim}
 
 This concept, while promising, does come with certain drawbacks that need to be addressed for its successful implementation.
 Firstly, the labeling implementation is currently incomplete and requires additional technical improvements to ensure reliable

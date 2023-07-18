@@ -1,4 +1,4 @@
-\documentclass[oneside,11pt,titlepage,ngerman,a4paper,bibliography=totocnumbered,listof=numbered]{scrbook}
+\documentclass[oneside,12pt,titlepage,ngerman,a4paper,bibliography=totocnumbered,listof=numbered]{scrbook}
 \usepackage[english]{babel}
 \sloppy
 %
@@ -37,11 +37,12 @@ TCP
 \let\@texttop\relax
 \makeatother
 
+\usepackage{glossaries}
 
 \begin{document}
 \selectlanguage{english}
 
-\setstretch{1.25}
+\setstretch{1.5}
 %--------------------------------------------------------------
 % FRONT PAGE AND DOCUMENT METADATA
 %--------------------------------------------------------------
@@ -58,11 +59,14 @@ TCP
 \listoftables
 \chapter{List of abbreviations}
 \begin{acronym}[eugh]
-\acro{eugh}[DNT]{Do Not Track}
-\acro{eugh}[TPL]{Tracking Protection List}
+\acro{eugh}[DNT]{Do Not Track} \acro{eugh}[TPL]{Tracking Protection List}
 \acro{eugh}[ML]{Machine Learning}
 \acro{eugh}[API]{Application Programming Interface}
 \acro{eugh}[HTTP]{Hypertext Transfer Protocol}
+\acro{eugh}[CRON]{Time-based job scheduler in Unix-like systems. It automates tasks at specific intervals or dates using a special syntax with five fields: minute, hour, day of the month, month, and day of the week.}
+\acro{eugh}[XMLRPC]{XML-based remote procedure call protocol for cross-platform communication.}
+\acro{eugh}[MinIO]{Open-source, scalable object storage server compatible with Amazon S3, designed for cloud-native environments and on-premises deployments.}
+\acro{eugh}[MongoDB]{High-performance NoSQL document database for flexible data storage and retrieval, with support for scalability, dynamic schema design, and rich query capabilities.}
 \end{acronym}
 %--------------------------------------------------------------
 % main content

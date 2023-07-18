@@ -1,0 +1,330 @@
+\ifglsentryexists{html}{}%
+{%
+\gls@defglossaryentry{html}%
+{%
+name={HTML},%
+sort={HTML},%
+type={main},%
+first={Hypertext Markup Language\glsspace (HTML)},%
+firstplural={Hypertext Markup Languages\glsspace (HTMLs)},%
+text={HTML},%
+plural={HTMLs},%
+description={Hypertext Markup Language},%
+descriptionplural={Hypertext Markup Language\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Hypertext Markup Language},%
+longplural={Hypertext Markup Languages},%
+short={HTML},%
+shortplural={HTMLs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{css}{}%
+{%
+\gls@defglossaryentry{css}%
+{%
+name={CSS},%
+sort={CSS},%
+type={main},%
+first={Cascading Style Sheets\glsspace (CSS)},%
+firstplural={Cascading Style Sheetss\glsspace (CSSs)},%
+text={CSS},%
+plural={CSSs},%
+description={Cascading Style Sheets},%
+descriptionplural={Cascading Style Sheets\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={Cascading Style Sheets},%
+longplural={Cascading Style Sheetss},%
+short={CSS},%
+shortplural={CSSs},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{dnt}{}%
+{%
+\gls@defglossaryentry{dnt}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={D\glsspace ([)},%
+firstplural={Ds\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={D},%
+descriptionplural={D\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={D},%
+longplural={Ds},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{tpl}{}%
+{%
+\gls@defglossaryentry{tpl}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={T\glsspace ([)},%
+firstplural={Ts\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={T},%
+descriptionplural={T\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={T},%
+longplural={Ts},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{ml}{}%
+{%
+\gls@defglossaryentry{ml}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={M\glsspace ([)},%
+firstplural={Ms\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={M},%
+descriptionplural={M\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={M},%
+longplural={Ms},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{api}{}%
+{%
+\gls@defglossaryentry{api}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={A\glsspace ([)},%
+firstplural={As\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={A},%
+descriptionplural={A\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={A},%
+longplural={As},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{http}{}%
+{%
+\gls@defglossaryentry{http}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={H\glsspace ([)},%
+firstplural={Hs\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={H},%
+descriptionplural={H\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={H},%
+longplural={Hs},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{cron}{}%
+{%
+\gls@defglossaryentry{cron}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={C\glsspace ([)},%
+firstplural={Cs\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={C},%
+descriptionplural={C\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={C},%
+longplural={Cs},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{xmlrpc}{}%
+{%
+\gls@defglossaryentry{xmlrpc}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={X\glsspace ([)},%
+firstplural={Xs\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={X},%
+descriptionplural={X\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={X},%
+longplural={Xs},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{minio}{}%
+{%
+\gls@defglossaryentry{minio}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={M\glsspace ([)},%
+firstplural={Ms\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={M},%
+descriptionplural={M\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={M},%
+longplural={Ms},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%
+\ifglsentryexists{mongodb}{}%
+{%
+\gls@defglossaryentry{mongodb}%
+{%
+name={[},%
+sort={[},%
+type={main},%
+first={M\glsspace ([)},%
+firstplural={Ms\glsspace ([s)},%
+text={[},%
+plural={[s},%
+description={M},%
+descriptionplural={M\acrpluralsuffix },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={M},%
+longplural={Ms},%
+short={[},%
+shortplural={[s},%
+counter={page},%
+parent={},%
+%
+}%
+}%

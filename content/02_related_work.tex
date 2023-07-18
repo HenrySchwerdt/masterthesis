@@ -85,14 +85,14 @@ Stateful web tracking is a pervasive phenomenon in the digital landscape that pl
 personalizing online experiences, and enabling targeted advertising. Unlike stateless tracking, which relies on transient interactions,
 stateful tracking involves the persistent storage of user-related information, allowing for long-term tracking and analysis. 
 
-A common practice for this king of tracking involves the utilization \emph{cookies}. These cookies were primarily introduced to enable 
+A common practice for this kind of tracking involves the utilization \emph{cookies}. These cookies were primarily introduced to enable 
 stateful web navigation \cite{jschwartz}. Cookies are small text files that are commonly used in web browsing to store information
 on the user's computer or device. These files serve as a means for websites to remember specific data about a user,
 allowing for enhanced browsing experiences and personalized content delivery. Cookies play a vital role in facilitating
 various online activities, such as maintaining login sessions and remembering user preferences.
 
-However, they can be abused to track users around the web. Cookies can be classified into two kinds.
-The first-party cookie which are set by the visited website itself and third-party cookies which are set by external 
+However, cookies can be abused to track users around the web. They can be classified into two kinds.
+The first-party cookie which is set by the visited website itself and third-party cookies which are set by external 
 resources embedded within the visited website. These cookies allow the third party to store information on the client's browser in regard 
 to the visited first-part website. In the case that this third-party resource is included on a large amount of websites it is possible 
 for that third party to create a detailed browsing history and profile the user's browsing habits. This phenomenon is called \emph{third-party cookies}
@@ -149,12 +149,12 @@ identify a user across different websites and sessions, even if cookies are clea
 browsing window.
 
 These fingerprints are created by accessing all available information about the user's device with JavaScript which runs in the browser.
-JavaScript provides many features interacting with the resources of the computer, because of that it is possible to identify the user's 
+JavaScript provides many features interacting with the resources of the computer, that is the reason why it is possible to identify the user's 
 operating system and architecture. Furthermore, it is possible to get browser specific information via the \emph{"navigator"} object as well as 
 screen information like the \emph{"width"}, \emph{"height"} and \emph{"color depth"} of the screen via the \emph{"screen"} object. All the available 
 information can then be hashed and used to identify a certain user. In addition, it is easier to distribute such hashes because they do not depend 
-on information stored on the user's device such as cookies. Any third-party party which hashes with the same information and the same algorithm 
-can identify a user another tracking service identified previously.
+on information stored on the user's device such as cookies. Furthermore, the generated hash can be shared with other tracking companies to get greater
+insights into the users' browsing behavior.
 
 Using a combination of available fields, namely \emph{"navigator"}, \emph{"screen"}, \emph{"navigator.plugins"}, and \emph{"navigator.MimeTypes"},
 Mayer \cite{mayer2009any} successfully applied a hashing technique to achieve a remarkable 96\% unique identification rate among
@@ -174,7 +174,7 @@ However, these features are not the only features available. It was also possibl
 performing benchmarks on the user's device \cite{miyazaki2008online}, or to exploit the \emph{canvas} API to determine differences 
 in the HTML rendering also known as canvas fingerprinting \cite{mowery2012pixel}.
 
-Furthermore, the usage of \emph{web beacons} is another stateless tracking techniques.
+Furthermore, the usage of \emph{web beacons} is another stateless tracking technique.
 Web beacons, also known as tracking pixels or clear GIFs, are invisible elements embedded within web content.
 These small, transparent images or code snippets allow website operators and third-party trackers to monitor
 and analyze user behavior on the internet.
@@ -192,7 +192,7 @@ Moreover, web beacons play a significant role in online advertising by enabling 
 of their campaigns and target specific audiences. A study by Nikiforakis et al. \cite{nikiforakis2013cookieless}
 explored the presence of web beacons in online advertisements and found that approximately 45\% of the analyzed advertisements
 utilized web beacons for tracking user interactions. This indicates the widespread usage of web beacons in the advertising
-industry to monitor user engagement and optimize ad delivery.
+industry to monitor user engagement and optimize advertisement delivery.
 
 The extensive usage of web beacons raises concerns about user privacy and tracking practices. As web beacons operate invisibly,
 users may be unaware of their presence and the extent of data collection associated with them. Furthermore, the ability to track
@@ -207,7 +207,7 @@ of user data collection and its impact on privacy, personalization, and user exp
 
 First-party tracking refers to the collection and analysis of user data by the website or domain that the user directly
 interacts with. This type of tracking involves the website owner using various technologies and techniques to monitor user
-behavior, personalize experiences, and improve their own services. First-party tracking can encompass a wide range of
+behavior, personalize experiences, and to improve their own services. First-party tracking can encompass a wide range of
 possibilities and applications, which are crucial for understanding user preferences, enhancing website usability,
 and delivering targeted content.
 \begin{enumerate}
@@ -237,11 +237,10 @@ and delivering targeted content.
   }
 \end{enumerate}
 These examples showcase the diverse applications of first-party tracking in enhancing user experiences, improving website performance,
-and ensuring security. It is important to note that the implementation and practices of first-party is an ever-growing environment and the 
+and ensuring security. It is important to note that the implementation and practices of first-party tracking is an ever-growing environment and the 
 provided use cases are not comprehensive.
 \subsection{Third-party Tracking}
-Third-party tracking involves the collection and analysis of user data by entities separate from the website or domain directly
-interacted with by the user. It encompasses the monitoring and tracking activities conducted by third-party trackers, often
+Third-party tracking involves the collection and analysis of user data by entities separate from the first-party website. It encompasses the monitoring and tracking activities conducted by third-party trackers, often
 for advertising and analytics purposes.
 \begin{enumerate}
   \item{\textbf{Targeted Advertising:} One prominent application of third-party tracking is targeted advertising.
@@ -252,7 +251,7 @@ for advertising and analytics purposes.
   \item{\textbf{Cross-Site Analytics:} Third-party tracking facilitates the aggregation of user data across different websites
       to generate comprehensive analytics and insights. Analytics platforms and data brokers employ third-party tracking techniques
       to collect data on user behavior, engagement metrics, and conversion rates across various websites \cite{googleAna}.
-      These insights can then be used to optimize marketing strategies, improve user experiences, and inform business decisions.
+      These insights can then be used to optimize marketing strategies, improve user experiences, and lead to more informed business decisions.
     }
   \item{\textbf{Data Monetization:} Third-party tracking plays a pivotal role in the monetization of user data. Data brokers and
       other intermediaries collect and aggregate user data from multiple sources, including third-party tracking, and sell this
@@ -271,7 +270,7 @@ transparency and control over personal data.
 \section{Tracking Protection Lists}
 
 As mentioned before, tracking poses a significant challenge to online privacy, necessitating the development of effective countermeasures
-to mitigate its impact. One prevalent approach in combating this issue involves the use of Tracking Protection Lists (TPLs),
+to mitigate its impact. One prevalent approach in combating web tracking involves the use of Tracking Protection Lists (TPLs),
 commonly referred to as \textit{"blocking lists"} or \textit{"blacklists"} \cite{bujlow2017survey,mayer2012third}. TPLs consist of carefully curated collections of domain names
 that are classified by the community. These lists are instrumental in blocking third-party content or services and serve two
 primary purposes. Firstly, they can be implemented at the router level, enabling the direct blocking of malicious domains.
@@ -287,7 +286,7 @@ to ensure their effectiveness. Failure to maintain up-to-date and properly label
 by the blocking tools or causing malfunctions in web pages. This challenge has prompted researchers to explore alternative approaches to enhance
 the maintenance and updating process of blocking lists.
 
-In light of this, a promising avenue of research in the field of web tracking countermeasures involves the utilization of Machine Learning (ML)
+In light of this, a promising branch of research in the field of web tracking countermeasures involves the utilization of Machine Learning (ML)
 models. These models offer the potential to automate and streamline the process of managing and updating blocking lists, addressing the inherent
 challenges associated with manual curation. By leveraging ML algorithms, it becomes possible to analyze vast amounts of data,
 identify patterns, and make accurate predictions about the domains that should be included in the blocking lists. This not only enhances the efficiency
@@ -295,11 +294,11 @@ and accuracy of the lists but also reduces the burden on users and administrator
 
 \section{Machine Learning Based Tracking Detection}
 
-The utilization of machine learning methods in order to detect and/or block web tracker go back to 1999. In this year, Kushmerick \cite{kushmerick1999learning}
+The utilization of machine learning methods in order to detect and/or block web tracker goes back to 1999. In this year, Kushmerick \cite{kushmerick1999learning}
 introduced a ML based advertisement blocker. This approach utilizes inductive learning to automatically
 generate rules that enable the blocker to distinguish between ads and non-ads. By removing advertisements before they are downloaded,
 the blocker effectively conserves bandwidth. This is achieved through the extraction of relevant features that aid in determining
-whether a given element is an ad, such as analyzing the size of images. It is worth noting that the production implementation of
+whether a given element is an advertisement, such as analyzing the size of images. It is worth noting that the production implementation of
 this blocker requires approximately 70 milliseconds to remove each image. The learned rules in this ML-based approach yield an
 impressive accuracy of 97.1\%. A similar approach to block unwanted images from loading was published in 2005 by Esfandiari \cite{esfandiari2005adaptive}.
 They used a different algorithm to prevent the unwanted images from loading and also achieved great success with minimal user feedback.
@@ -311,8 +310,8 @@ protection approaches into these two categories.
 \subsection{Stateful Tracking Detection}
 
 One of the first ML based approaches to stateful web tracking was published by Yamanda et al. \cite{yamada2010web} in 2010.
-In their approach they analyzed traffic at the network gateway and constructing a graph for the traffic by monitoring the visited
-time on each website and the website itself. They then labeled a dataset by utilizing public available tracking protection lists
+In their approach they analyzed traffic at the network gateway. To achieve this they constructed a graph for the traffic by monitoring the visited
+time on each website and the website itself. Afterward, they labeled a dataset by utilizing public available tracking protection lists
 and trained their supervised classifier with this data. Their classifier achieved an accuracy between 62\% to 73\%.
 
 Furthermore, Li et al. \cite{li2015trackadvisor} presented \emph{"TrackAdvisor"} which utilizes machine learning for 
@@ -322,14 +321,14 @@ one third-party tracker, with Google monitoring approximately 25\% of these popu
 the pervasiveness of third-party tracking and raise awareness about its privacy risks.
 
 Additionally, Metwalley et al. \cite{metwalley2015unsupervised} published an unsupervised methodology that utilizes application-level traffic logs to automatically
-detect services engaged in tracking activities. The methodology is based on an algorithm that identifies user identifiers exposed
+detect services engaged in tracking activities. The methodology is based on an algorithm that recognizes user identifiers exposed
 in URL queries within HTTP(S) transactions. The algorithm was validated using an artificial dataset created by visiting the top
 200 most popular websites according to the Alexa rank. The results were promising, with the algorithm identifying 34 previously
 unknown third-party trackers not found in existing blacklists. The analysis of the algorithm's output revealed privacy-related
 interactions, including scenarios suggesting the practice of Cookie Matching, where user activity information is shared across
 multiple third-party entities.
 
-A similar study has been performed by Dudykevych \cite{dudykevych2016detecting} in which the authors aimed to address privacy violations caused by third-party services and evaluate the effectiveness
+A similar study has been performed by Dudykevych \cite{dudykevych2016detecting} in which the authors aimed to address privacy violations caused by third-party services and to evaluate the effectiveness
 of a method for automatically identifying web-tracking requests. By analyzing a corpus of internet traffic, they were able
 to detect 95\% of third-party trackers, including previously unseen trackers. The results demonstrated the potential of
 their approach to accurately identify web trackers based on HTTP request analysis. The study highlighted the significance
@@ -337,11 +336,11 @@ of shared cookies across different domains, shedding light on the extent of priv
 
 In 2023, Raschke et al. \cite{raschke2023} introduced \emph{"t.ex-Graph"}, which is a representation that models the flow of data
 between websites in the form of a graph to identify Web trackers. They utilized a publicly available dataset
-of HTTP/S requests collected from the Tranco top 10K websites to extract the graph. Additionally, they defined a set of features
+of HTTP/S requests collected from the Tranco \cite{pochat2018tranco} top 10K websites to extract the graph. Additionally, they defined a set of features
 which were used to train ML models on the dataset. The experimental results demonstrate an impressive accuracy rate of 88\% and the capability to identify previously unknown Web trackers.
 
-The previous shown examples can all be used to validate TPLs, but a preemptive blocking of requests in real-time seams difficult, because some 
-of the discussed features can only be obtained after the requests has been sent to host or the model requires a lot of information in order 
+The previous shown examples can validate TPLs, but a preemptive blocking of requests in real-time seems difficult, because some 
+of the discussed features can only be obtained after the requests have been sent to the host or the model requires a lot of information
 to perform its classification. However, Castell-Uroz et al. \cite{castell2020url} proposed a method that encodes the URL of a request and passes this
 encoded representation to a classifier. This is a quite reduced approach to this topic and requires only data which is available before a request
 is sent. They achieved an accuracy of 97\% and state the model could be applied in real-time scenarios.
@@ -351,8 +350,8 @@ is sent. They achieved an accuracy of 97\% and state the model could be applied 
 A similar effort to develop ML based tracking detection is performed in the stateless tracking detection field. Bau et al. \cite{bau2013promising} 
 investigated the use of machine learning (ML) for tracker detection. Their research focused on the advantages of ML,
 including ease of maintenance and the ability to adapt to changing tracking behaviors. They collected data from a web
-crawl of the Quantcast United States top 32,000 homepages, labeling each node in DOM-like hierarchies. After training the ML model
-on this dataset, they achieved a weighted precision of 96.7\% with a false-positive rate of 0.5\%.
+crawl of the Quantcast United States top 32,000 homepages, labeling each node in DOM-like hierarchies. After the training of the ML model
+on this dataset, Bau et al. achieved a weighted precision of 96.7\% with a false-positive rate of 0.5\%.
 
 Kaizer et al. \cite{kaizer2016towards} investigated machine-based tracking, focusing specifically on JavaScript-oriented tracking due to its widespread
 accessibility. They explored the use of coarse features related to JavaScript access, cookie access, and URL length subdomain
@@ -368,7 +367,7 @@ machine learning, they achieved a 97.8\% detection accuracy for third-party trac
 Ghostery \cite{ghostery} list and unveiled 35 previously unknown trackers. This research contributed to improving the efficiency
 and coverage of anti-tracking technologies.
 
-Ikram et al. \cite{ikram2016towards} took a different approach to this problem. In their work they focus on the usability aspect
+Ikram et al. \cite{ikram2016towards} took a different approach to solving this problem. In their work they focus on the usability aspect
 in which more blocking tools reduce the user experiences on websites \cite{leon2012johnny}. They recognized the shared similarities in tracking
 JavaScript code, attributed to the use of common libraries by developers. To validate their assumption, they trained a one-class
 classifier on semantic and syntactic features of JavaScript code. The classifier, trained on 2,612 manually labeled JavaScript
@@ -391,9 +390,9 @@ using the top 10,000 web pages from the Alexa ranking. They employed a customize
 crawling enabling the construction of a directed graph spanning HTML, HTTP, and
 JavaScript layers. Structural features (e.g., graph size, degrees, number of siblings) capturing relationships between web
 elements and content features (e.g., request type, keywords, URL length) representing values associated with individual
-nodes were extracted from this graph. These features were then input into their trained classifier to determine tracking
-versus non-tracking attributes. The analysis of the crawl results confirmed that non-ad nodes exhibit higher average
-degree connectivity as they interact with web page content, while ad nodes show lower average degree connectivity.
+nodes were extracted from this graph. These features were then put into their trained classifier to determine tracking
+versus non-tracking attributes. The analysis of the crawl results confirmed that non-advertisement nodes exhibit higher average
+degree connectivity as they interact with web page content, while advertisement nodes show lower average degree connectivity.
 Additionally, the study demonstrated a 95.33\% replication of labels from human-generated blocking lists and identified errors
 in these lists.
 
@@ -413,5 +412,5 @@ Castell-Uroz et al. \cite{castell2020url}. With the rise of client-side ML libra
 real-time tracker detection and even the blocking of these requests comes closer to achieve.
 
 Furthermore, there are no real comparisons regarding the use of a real-time classifier and the usage of tracking blockers. This could
-generate more insights about the ML classifiers and demonstrate the real world application of the resarch approaches.
+generate more insights about the ML classifiers and demonstrate their performance in a real world scenario.
 

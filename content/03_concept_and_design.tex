@@ -1,4 +1,6 @@
 \chapter{Concept \& Design}
+\label{cha:conceptanddesign}
+
 In this chapter we describe the research problem and our solution. Regarding the solution we discuss 
 the ML aspects of this research and the architectural design to get the ML models running in a real-time
 environment.
@@ -8,37 +10,36 @@ The rise of online tracking techniques poses significant privacy concerns for us
 Traditional methods of tracking detection, such as static blacklists, are limited in their ability to adapt
 to evolving tracking techniques. Although ML classifier have been developed to verify and support
 the creation of TPLs there is no ML based blocking of malicious HTTP requests. Currently, all web extensions focused on blocking
-ads and tracker use some kind of blocking list. As a result, there is a pressing need for an adaptive real-time application which
-proves the concepts of ML based tracker detection and utilizes them in order to block tracking request while browsing the web.
+advertisements and trackers use some kind of blocking list. As a result, there is a pressing need for an adaptive real-time application which
+proves the concepts of ML based tracker detection and utilizes them in order to block tracking requests while browsing the web.
 \section{Solution}
 In this thesis we present an AI driven web extension capable of blocking tracking requests in a real-time fashion and an approach on how
 to continuously train this model and distribute it to our users. To create this kind of application many factors are important. In this 
 section we elaborate on the AI model, the used frameworks and the overall application infrastructure.
 \subsection{Model}
-Developing a robust and effective real-time machine learning-based tracking detection application includes the crucial challenge
-of selecting an appropriate ML model. The chosen model must have a high level of reliability and accuracy in identifying web
-trackers. It is required to have the capability to identify tracking requests from the data available before the request is sent
+Developing a robust and effective real-time machine learning-based tracking detection application includes the challenge
+of selecting an appropriate ML model. The chosen model must have a high level of reliability, accuracy, and the capability to identify tracking requests from the data available before the request is sent
 to the server.
 
-In addition to accurate tracking detection, the selected model needs to be able to predict very fast.
+In addition to accurate tracking detection, the selected model needs to be able to perform its prediction fast so that there is no noticeable delay when loading the website.
 The application must be designed to operate within a web extension environment, where efficiency and responsiveness are important.
 Quick prediction capabilities are essential to ensure that the model's execution does not introduce any detrimental impact on
 the overall user experience.
 
-Therefore, striking a balance between accuracy and efficiency is important when selecting the model for the real-time
-tracking detection application. The model must possess the ability to analyze incoming data fast and make accurate predictions
+Therefore, striking a balance between accuracy and efficiency is important when selecting the model for the application. It must possess the ability to analyze incoming data fast and to make accurate predictions
 in real-time, ensuring that tracking requests are identified and flagged promptly. By achieving this delicate balance, the application
 can effectively protect user privacy without compromising the seamless browsing experience.
 
-A promising ML model for this task has been proposed by Castell-Uroz et al. \cite{castell2020url}. For their classification the only thing
-the model requires is the request URL. This model achieved an accuracy of 97\% which is solid for our use case.
+A promising ML model for this task has been proposed by Castell-Uroz et al. \cite{castell2020url}.
+For their classification the model requires only the request URL. This model 
+achieved an accuracy of 97\% which is solid for our use case.
 
 Furthermore, Castell-Uroz et al. describe their approach of encoding the web request URL into numerical
 representations ranging from 1 to 90. To streamline the input data, they restrict the input vector to 200 features.
 In cases where a URL exceeds the 200-character limit, the initial characters are truncated. Conversely, if a URL
 is shorter than the limit, the remaining positions in the input vector are padded with zeros from the left.
-This encoding strategy ensures that the model effectively processes URL because Castell-Uroz et al. identified that the important
-features for tracker detection likely to appear at the end of the URL string.
+This encoding strategy ensures that the model effectively processes URLs because Castell-Uroz et al. identified that the important
+features for tracker detection likely appear at the end of the URL string.
 \begin{figure}[ht!]  
   \centering
   \begin{subfigure}[b]{.47\textwidth}
@@ -60,21 +61,21 @@ features for tracker detection likely to appear at the end of the URL string.
       \label{fig:featModel2}
   \end{subfigure}
   \label{}
-  \caption{This figure shows the feature vector of the two ML models.}
+  \caption{This figure demonstrates the encoding process of the feature vector for both ML models.}
 \end{figure}  
 
 However, it is important to note that there is additional information available prior to sending a request to the server.
 To leverage this additional information, we have developed two distinct ML models while maintaining
 the same underlying model structure, similar to the approach followed by Castell-Uroz et al.
 
-For the first model, we have incorporated 204 features, as illustrated in Fig-\ref{fig:featModel1}. Consistent with Castell-Uroz et al.,
-we have utilized the initial 200 features to encode the request URL. In addition to the URL, we have also encoded the frametype\footnote{The "frametype" field in the context of intercepting HTTP requests with a web extension refers to a field that provides information about the type of frame or container within which the request is being made. It helps identify the specific frame that initiated the request, such as the main frame, subframes, iframes, or embedded objects. Analyzing the "frametype" field allows the web extension to gain insights into the hierarchical structure of the web page and make informed decisions about handling or modifying the intercepted requests accordingly. However, the availability and usage of the "frametype" field may vary depending on the specific web extension framework or API being used.},
-which can take one of three distinct values. Furthermore, we have encoded the HTTP method\footnote{The "request method" in HTTP refers to the type of action performed on a specified resource. It is an essential part of the HTTP protocol and determines how servers should handle client requests. Examples of request methods include GET, POST, PUT, and DELETE, each serving a specific purpose in retrieving, submitting, updating, or deleting data. The request method plays a crucial role in defining the behavior and functionality of web applications and APIs.}, which can take
+For the first model, we incorporate 204 features, as illustrated in Fig-\ref{fig:featModel1}. Consistent with Castell-Uroz et al.,
+we utilize the initial 200 features to encode the request URL. In addition to the URL, we also encode the frametype\footnote{The "frametype" field in the context of intercepting HTTP requests with a web extension refers to a field that provides information about the type of frame or container within which the request is being made. It helps identify the specific frame that initiated the request, such as the main frame, subframes, iframes, or embedded objects. Analyzing the "frametype" field allows the web extension to gain insights into the hierarchical structure of the web page and make informed decisions about handling or modifying the intercepted requests accordingly. However, the availability and usage of the "frametype" field may vary depending on the specific web extension framework or API being used.},
+which can take one of three distinct values. Furthermore, we encode the HTTP method\footnote{The "request method" in HTTP refers to the type of action performed on a specified resource. It is an essential part of the HTTP protocol and determines how servers should handle client requests. Examples of request methods include GET, POST, PUT, and DELETE, each serving a specific purpose in retrieving, submitting, updating, or deleting data. The request method plays a crucial role in defining the behavior and functionality of web applications and APIs.}, which can take
 one of eight distinct values, the request type\footnote{The "request type" in web development refers to the specific type of resource requested by a client's HTTP request, such as fonts, stylesheets, HTML files, or images. It helps the client and server communicate effectively and ensures the appropriate handling and delivery of the requested content.}, which can take one of twelve distinct values,
 and lastly, the presence of the referrer header\footnote{The "referrer header" in web development is an HTTP header field that indicates the URL of the webpage that referred the current request. It is used for tracking and analytics purposes, helping websites analyze user traffic and implement security measures.}.
 
-For the second model, we have incorporated 233 features, as illustrated in Fig-\ref{fig:featModel2}. Similar to the first model,
-we use the encoded request URL, frametype, HTTP method and request type. However, we also encode
+For the second model, we include 233 features, as illustrated in Fig-\ref{fig:featModel2}. Similar to the first model,
+we use the encoded request URL, frametype, HTTP method and request type. However, we also include
 30 characters of the request initiator. The request initiator in this case is the first-party website which initiated the request. This 
 initiator URL gets encoded like the request URL and added after the encoding of the request URL.
 
@@ -94,7 +95,7 @@ in real-time.
 
 The deep neural network structure is almost identical to Castell-Uroz et al. \cite{castell2020url} and is illustrated in Fig-\ref{fig:modelStructure}.
 The differences come from the different activation
-function and the different input and output vector dimensions due to the different feature vectors. As Castell-Uroz et al. we use an embedding layer to reduce the bias between the numerical values of the embedded URL string. This embedded 
+function and the different input and output vector dimensions due to the different feature vectors. Like Castell-Uroz et al. we use an embedding layer to reduce the bias between the numerical values of the embedded URL string. This embedded 
 representation then gets flattened into a one dimensional vector and put into the four dense layers. Each dense layer has a dropout rate of 50\% to reduce
 overfitting and a ReLU\footnote{ReLU (Rectified Linear Unit) is a commonly used activation function in neural networks. It 
 introduces non-linearity by outputting the input value if it is positive, and zero otherwise. ReLU is efficient and helps
@@ -103,20 +104,21 @@ like Leaky ReLU and Parametric ReLU exist to overcome this problem.} activation 
 by a Sigmoid\footnote{The sigmoid activation function is commonly used in neural networks for binary classification tasks. It maps input values to a range between 0 and 1, facilitating gradient-based optimization. However, it may encounter issues such as the vanishing gradient problem and asymmetry around zero. Despite these limitations, the sigmoid function remains a key component in neural network architectures.} function to generate an output
 between zero and one.
 
-By using the neural network structure of Castell-Uroz et al. we hope to achieve similar or better accuracy results with 
+By using the neural network structure of Castell-Uroz et al. we expect to achieve similar or better accuracy results with 
 the newly crafted feature vector designs. However, it could be possible that the network architecture is not optimal
-for the desired output and does not fit the different feature vectors. There is a chance that a better architecture could 
-lead to a better accuracy result and therefore would better fit the real-time application of the model.
+for the desired output and does not fit to the different feature vectors. There is a chance that a better architecture could 
+lead to a better accuracy result and therefore would better fit the real-time application of the model. But ML architecture is beyond
+the scope of this thesis and is an interesting topic for future work.
 
 \subsection{Training-Data}
 
 Selecting the appropriate training-data is a crucial step in the training of neural networks. The quality and representativeness 
-of the training data directly impact the performance and generalization ability of the network.
+of the training data directly impacts the performance and generalization ability of the network.
 
 The utilization of the model in a real-time web environment necessitates the careful selection of the training dataset.
 In our study, we sought to procure a dataset that aligns with the dynamics and characteristics of real-time web browsing.
 To achieve this, we turned to a comprehensive web crawl conducted by Raschke \cite{raschke_philip_2022_7123945}, which involved the exploration and collection
-of data from the Tranco top 10K websites using the Chrome browser.
+of data from the Tranco \cite{pochat2018tranco} top 10K websites using the Chrome browser.
 
 The choice of using a Chrome crawl dataset by Raschke holds several advantages for our model's training. Firstly, it is performed 
 using the \emph{t.ex extension} \cite{9972261}, which is a cross browser extension and therefore runs in the same environment as our
@@ -128,7 +130,7 @@ during the crawl which gives great potential for training a neural network. The 
 format and a label to identify tracking requests from non tracking requests. Moreover, the dataset has been successfully used by Raschke et al. \cite{raschke2023}
 to train a different tracker detection classifier.
 
-For these reason we decided to use this dataset \cite{raschke_philip_2022_7123945} to train our models and further on use these models
+For these reasons we decided to use this dataset \cite{raschke_philip_2022_7123945} to train our models and further on use these models
 in the real-time application.
 
 \subsection{Real-time Application}
@@ -149,7 +151,7 @@ extension can communicate over the API provided by the browser.}
 
 Browser extensions are event based programs which can be used to enhance the browsing
 experience. Moreover, browsers provide an API which can be used by the extension programmer to interact with the browser with JavaScript.
-This API can then be used to for example block HTTP requests before they get sent to the server.
+This API can then be used to block HTTP requests before they get sent to the server.
 
 As shown in Fig-\ref{fig:extOver} a web extension may consist of a \emph{background} page, a \emph{popup}, \emph{option} pages and
 content-scripts. Once the background script is loaded it can attach to various browser events and react accordingly. The browser API
@@ -157,29 +159,29 @@ provides numerous events \cite{browserApi} including events that allow to read a
 \emph{content-scripts} which get directly injected every web page opened in the browser and can modify its content using
 JavaScript. A web extension has two methods communicating with the user through a dedicated user interface. Firstly, it is possible
 to provide a popup page to display information or controls. Secondly, it is possible to host an option-page or static HTML serving. This can
-be used to give the user more detailed options or when more screen space is needed.
+be used to provide the user more detailed options or more screen space.
 
 We want to utilize the advantages of using a web extension as a real-time tracking blocker. Therefore, we implement a background script
 which attaches to the \emph{onBeforeRequest} event to gather information about the request such as the \emph{requestId} and the source URL 
-which initiated the request. Moreover, we also attach to the \emph{onBeforeSendHeaders} event which can be used to block a request and holds
+which initiated the request. Moreover, we use the \emph{onBeforeSendHeaders} event to block a request. Besides, the event callback provides
 information about the request headers. With this information we then construct a feature vector and pass it to our ML model and cancel the 
 request depending on the models' confidence. 
 
-Furthermore, to improve usability we implement a popup to show the user the amount of trackers detected on a certain website and show
+To improve usability we implement a popup to show the user the amount of trackers detected on a certain website and show
 each request with the according confidence. Moreover, the user is able to regulate the threshold on which a request is determined a 
-tracking request, and it is possible to enable or disable the blocking of web requests. The default confidence on which a request
-is deemed a tracking is set to 80\%.
+tracking request, and it is possible to enable or disable the blocking of web requests. By default, the application blocks every request
+which got a confidence higher or equal to 80\%.
 
-The implementation of this application heavily relies on \emph{tensorflow.js} \cite{tensorflowJs} which is a library to port ML models to
+The implementation of this application heavily relies on \emph{TensorFlow.js} \cite{tensorflowJs} which is a library to port ML models to
 JavaScript. This way we can calculate the feature vector and pass it to the TensorFlow layers model. This is extremely
-performant as tensorflowjs uses WebAssembly to calculate the model and is an important factor in the real-time ability of this application.
+performant as TensorFlow.js uses WebAssembly to calculate the model. This is an important factor in the real-time ability of this application.
 With this concept, we meet the real-time criterion and hope to provide a seamless user-experience.
 
 \subsection{Infrastructure}
 
 As the web industry grows with rapid pace, also web tracker change in structure and technique. This could lead to the model being 
-outdated as the training data is from a specific time. Another infrastructural problem is the use of TPLs as the ground truth. As mentioned
-before these lists are error prune on often just hide certain elements from the DOM. For that reason it is important to gather better 
+outdated as the training data is from a specific point of time. Another infrastructural problem is the use of TPLs as the ground truth. As mentioned
+before these lists are error-prone and often just hide certain elements from the DOM. For that reason it is important to gather better 
 training data with better labels. For that reason we also implemented an infrastructure to keep the model up to date and to enable user to
 provide training data with custom labels.
 \begin{figure}
@@ -190,38 +192,40 @@ provide training data with custom labels.
   monitor the learning rate. Every endpoint proxies through a NGINX gateway. The main service is in charge of storing new data into the training dataset and 
   to host the trained models. Furthermore, it is includes a job architecture which allows running different jobs based on a CRON pattern. For data storage there is 
   a bucket storage from \emph{MinIO} and a \emph{MongoDB} to hold the data the main service servers and modifies. Finally, there are multiple training services which are Python based
-  these get triggered by the main service using \emph{XMLRPC}.
+  these get triggered by the main service using \emph{XML-RPC}.
   }
   \label{fig:tdInfra}
 \end{figure}
 
-As shown in Fig-\ref{fig:tdInfra} a lot of thought went into the creation of a suitable backend for the web extension. The goal of that
+As shown in Fig-\ref{fig:tdInfra} a lot of thought went into the creation of a suitable backend infrastructure for the web extension. The goal of that
 backend is to provide a simple way to train and deploy new ML models to the user of the web extension. The complete backend is divided into
-three main services. The \emph{Tracking-Detector-Dashboard} is the admin panel which allows the admin to monitor learning rates and export 
+three main services. The \emph{Tracking-Detector-Dashboard} is the administrator panel which allows the administrator to monitor learning rates and export 
 training datasets. Through this panel it is also possible to trigger the job based architecture in the \emph{Tracking-Detector-Service}.
 
-Another important aspect of this architecture is the storage of data within this system. For that there are two storage components within this
-architecture. Firstly, the MongoDB is in charge of storing the raw browsing data of the clients and to store the ML model definitions which get 
-trained. Furthermore, the statistics of each training run get stored in that database. The second storage component is a MinIO bucket storage service.
+Another important aspect are two storage components within this
+architecture. Firstly, the MongoDB\footnote{MongoDB is an open-source, NoSQL database system designed for storing and managing large volumes of flexible, JSON-like documents. It offers high scalability, fault tolerance, and rich querying capabilities, making it popular for modern applications like web and mobile apps, IoT devices, and big data analytics.}, which is NoSQL document database and is being utilized to store the raw browsing data of the clients and the ML model definitions which get 
+trained. Furthermore, the statistics of each training run get stored in that database. The second storage component is a MinIO\footnote{MinIO is an open-source, high-performance object storage server compatible with Amazon S3 API. It is lightweight, easy to set up, and ideal for managing large unstructured data like images and videos. MinIO supports erasure coding and Bitrot protection for data durability and can be deployed on-premises or in the cloud. Its compatibility with S3 tools makes integration seamless, making it a popular choice for scalable and cost-effective storage solutions.} bucket storage service. This service 
+is a scalable solution for storing all kinds of files.
 This storage is utilized to export the raw training-data into easy to process CSV files which can be used to train the models. Moreover, the trained model
 binaries get stored in that storage service.
 
-Besides, the centerpiece of this backend is the \emph{Tracking-Detector-Service}. This service is in charge of processing new data points 
+The centerpiece of this backend is the \emph{Tracking-Detector-Service}. This service is in charge of processing new data points 
 submitted by the users of the web extension and to gather them into a dataset which gets exported to the MinIO file storage. It also stores 
-the original representation of the data points into a MongoDB such that any dataset representation can be created. Additionally, this service
-is in charge of serving the trained models to the clients, it does that by serving the stored models directly out of the MinIO storage buckets.
-This service is implemented in Kotlin and uses the Spring Boot framework to create a multithreaded server environment. This framework has been choosen
-because of its testability and performance.
+the original representation of the data points into a MongoDB such that any dataset representation can be created. Finally, this service
+is in charge of serving the trained models to the clients, it does that by acting as an intermediate between the client and the MinIO service.
+This service is implemented in Kotlin\footnote{Kotlin is a modern, statically-typed programming language designed by JetBrains. It is fully interoperable with Java, allowing seamless integration with existing codebases and libraries. Kotlin offers concise syntax, improved null safety, and enhanced type inference, making code more readable and safer. It is widely used for Android app development, server-side applications, web development, and more, with features like extension functions and coroutines for asynchronous programming, boosting productivity and expressiveness.} and uses the Spring Boot\footnote{Spring Boot is an open-source, Java-based framework for building production-ready Spring applications with streamlined configuration and faster development. It supports web applications, microservices, and RESTful APIs, facilitating easy deployment across environments and platforms, making it a popular choice for scalable Java applications.} framework to create a multithreaded server environment.
+This framework has been chosen because of its testability and performance. Moreover, Spring Boot is industry standard for most backend systems and
+provides solutions for almost any problem regarding server-side development.
 
-Furthermore, the training of the models is done on one of the multiple \emph{Tracking-Detector-Training} services. These services are
-lightweight XMLRPC server implemented in Python. The training gets started by a XMLRPC call to one of the services. After that, the service
-grabs the training data from the MinIO storage bucket and compiles the ML model from the information provided by the XMLRPC call. It then starts
+The training of the models is done on one of the multiple \emph{Tracking-Detector-Training} services. These services are
+lightweight XML-RPC\footnote{XML-RPC is a lightweight, remote procedure call (RPC) protocol that utilizes XML to encode data and communicate between software systems over networks. It enables easy integration between different platforms and programming languages, making it widely adopted in various applications. XML-RPC allows for simple and direct interactions, making it suitable for basic communication needs in distributed systems and web services.} server implemented in Python. The training gets started by an XML-RPC call to one of the services. After that, the service
+grabs the training data from the MinIO storage bucket and compiles the ML model from the information provided by the XML-RPC call. It then starts
 training the model and returns the model metrics to the \emph{Tracking-Detector-Service}.
 
 As for the usability, we decided to wrap every component into a docker container and host the whole infrastructure in a \emph{docker-compose}
-file which makes it easy to set up. Furthermore, this architecture can be used for all kind of ML based applications as the jobs are simple to extend 
+file which makes it easy to set up. This architecture can be used for all kind of ML based applications as the jobs are simple to extend 
 and the creation of new models can be done via the admin panel. With this backend solution we hope to create an application that continuously creates
-better models and serves them to the clients. Furthermore, we hope to simplify the process of gathering training data and to create a better
+better models and serves them to the clients. We hope to simplify the process of gathering training data and to improve
 ground truth in the web tracking field.
 
 \subsection{Limitations}
@@ -230,42 +234,42 @@ However, there are limitations to this approach. The selected features may not b
 This could be done by generating variations of feature vectors using all the available features before a request is sent to the server.
 After that, a grid search could be implemented to validate which feature vector fits the problem best. 
 
-Furthermore, the same problem applies to the model. The neural network structure may not be optimal for the given use case and could also
+The same problem applies to the model. The neural network structure may not be optimal for the given use case and could also
 be optimized with a grid search. This might lead to performance gains. Another more generic dataset could be used to create a better generalized
-model which could lead to a better performance in the real-time application causing less site breakages.
+model which could improve performance in the real-time application causing less site breakages.
 
 \section{Methodology}
 
-In this section, we outline the methodology we will employ to evaluate our models and real-time application for web tracker detection.
+In this section, we outline the methodology we employ to evaluate our models and real-time application for web tracker detection.
 The methodology encompasses data collection, model training, evaluation metrics, and real-time application evaluation. By following
 rigorous scientific methods, we aim to ensure the reliability, accuracy, and practicality of our models and application.
 
 \subsection{Data Collection}
-To gather the necessary data for evaluating our models and real-time application, we will utilize a combination of approaches.
-This will involve conducting web crawls using browsers such as Chrome and Brave. Through these web crawls,
-we will collect a diverse set of web pages representing various domains. These crawls will be performed with Chrome without extensions,
-Chrome with the first model, Chrome with the second model, Chrome with both models and a Brave which has build in ad and tracker blocking.
-The crawler will crawl the Tranco Top 1K websites and generate a browsing graph which includes the visited domains and the HTTP request
+To gather the necessary data for evaluating our models and real-time application, we utilize a combination of approaches.
+This involves conducting web crawls using browsers such as Chrome and Brave. Through these web crawls,
+we collect a diverse set of web pages representing various domains. These crawls are being performed with Chrome without extensions,
+Chrome with the first model, Chrome with the second model, Chrome with both models and a Brave which has built in advertisement and tracker blocking.
+The crawler visits the Tranco \cite{pochat2018tranco} Top 1K websites and generate a browsing graph which includes the visited domains and the HTTP request
 performed on each node.
 
 \subsection{Model Training}
-The training process will involve preprocessing the dataset, including features extraction and
-transformation into a suitable format for training the neural network models. We will use the model architecture by Castell-Uroz et al. \cite{castell2020url}.
-To ensure the generalizability of our models, we will employ cross-validation techniques, such as k-fold cross-validation,
+The training process involves preprocessing the dataset, including features extraction and
+transformation into a suitable format for training the neural network models. We use the model architecture by Castell-Uroz et al. \cite{castell2020url}.
+To ensure the generalizability of our models, we employ cross-validation techniques
 to assess their performance on different subsets of the data.
 
 \subsection{Evaluation Metrics}
-To evaluate the performance of our models, we will employ standard evaluation metrics commonly used in machine learning
+To evaluate the performance of our models, we employ standard evaluation metrics commonly used in machine learning
 classification tasks. These metrics include accuracy, precision, recall, F1-score, false positive rate, and false negative rate.
-Accuracy will measure the overall correctness of our models in identifying web trackers. Precision, recall, and F1-score will provide
+Accuracy measures the overall correctness of our models in identifying web trackers. Precision, recall, and F1-score provide
 insights into the model's ability to accurately classify web trackers and non-trackers. The false positive rate and false negative
-rate will help assess the model's performance in minimizing false positives and false negatives, which directly impact user
+rate help assess the model's performance in minimizing false positives and false negatives, which directly impact user
 experience and privacy.
 
 \subsection{Real-time Application Evaluation}
-In order to evaluate the performance of our real-time web tracker detection application, we will evaluate the gathered data 
+In order to evaluate the performance of our real-time web tracker detection application, we examine the gathered data 
 and look at the browsing graphs to determine the difference in the browsing experience.
-Additionally, we will measure the impact of the web extension on browsing performance, such as page load times and
+Additionally, we measure the impact of the web extension on browsing performance, such as page load times and
 resource consumption, to ensure minimal disruption to the user's browsing experience.
 
 
