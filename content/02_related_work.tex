@@ -4,8 +4,8 @@
 Web tracking is a pervasive phenomenon on the internet, where users are 
 often unaware of the extent to which their online activities are monitored
 and recorded by third-party trackers. The use of tracking technologies such
-as cookies, pixels, and fingerprinting can allow trackers to collect large 
-amounts of personal information about users, including their browsing history,
+as cookies, pixels, and fingerprinting can allow web trackers to collect large 
+amounts of delicate data about users, including their browsing history,
 demographics, and online behavior, without their explicit consent or knowledge 
 \cite{englehardt2016online,hoofnagle2010different}. This can lead to a range of
 negative consequences for users, including invasion of privacy, identity theft,
@@ -96,8 +96,7 @@ The first-party cookie which is set by the visited website itself and third-part
 resources embedded within the visited website. These cookies allow the third party to store information on the client's browser in regard 
 to the visited first-part website. In the case that this third-party resource is included on a large amount of websites it is possible 
 for that third party to create a detailed browsing history and profile the user's browsing habits. This phenomenon is called \emph{third-party cookies}
-and is one of the most common methods for web tracking. Similar functionality was adopted by other browser components like
-\emph{Flash cookies}. 
+and is a common practice regarding web tracking. A similar mechanism are so-called \emph{Flash cookies}. 
 
 Flash cookies, also referred to as Local Shared Objects (LSOs), emerged as a web tracking mechanism leveraging Adobe Flash technology.
 Differing from conventional HTTP cookies, Flash cookies possessed the capability to store larger amounts of data, up to 100 kilobytes \cite{sipior2011online}.
@@ -113,8 +112,8 @@ The prevalence of mobile devices and the diminishing support for Adobe Flash hav
 cookies. As modern browsers and mobile operating systems gradually phased out Flash technology, website developers transitioned to
 alternative technologies like HTML5, rendering the reliance on Flash cookies for functionality less significant \cite{bbcflash}.
 
-Furthermore, \emph{HTML5}, the latest version of the HyperText Markup Language, introduces novel mechanisms that enable websites and
-third-party trackers to store data within the browser environment without the need for traditional cookies. One such mechanism
+Furthermore, \emph{HTML5}, the latest version of the HyperText Markup Language, introduces novel mechanisms for storing data within the browser 
+environment without the need for traditional cookies. One such mechanism
 is the utilization of the \emph{Window.name} property in \emph{JavaScript}, which serves as a non-persistent storage medium for sharing
 information across different websites. The \emph{Window.name} property allows for the exchange of data between domains,
 even in scenarios where the domains are distinct \cite{sy2018tracking}. By leveraging this property, websites and third-party trackers
@@ -288,8 +287,9 @@ the maintenance and updating process of blocking lists.
 
 In light of this, a promising branch of research in the field of web tracking countermeasures involves the utilization of Machine Learning (ML)
 models. These models offer the potential to automate and streamline the process of managing and updating blocking lists, addressing the inherent
-challenges associated with manual curation. By leveraging ML algorithms, it becomes possible to analyze vast amounts of data,
-identify patterns, and make accurate predictions about the domains that should be included in the blocking lists. This not only enhances the efficiency
+challenges associated with manual curation. By harnessing ML algorithms, it becomes feasible to analyze vast amounts of data,
+recognize patterns, and generate precise predictions concerning the domains to be incorporated into the blocking lists.
+This not only enhances the efficiency
 and accuracy of the lists but also reduces the burden on users and administrators in terms of manual maintenance and updates.
 
 \section{Machine Learning Based Tracking Detection}
@@ -314,16 +314,18 @@ In their approach they analyzed traffic at the network gateway. To achieve this 
 time on each website and the website itself. Afterward, they labeled a dataset by utilizing public available tracking protection lists
 and trained their supervised classifier with this data. Their classifier achieved an accuracy between 62\% to 73\%.
 
-Furthermore, Li et al. \cite{li2015trackadvisor} presented \emph{"TrackAdvisor"} which utilizes machine learning for 
-accurately identifying HTTP requests carrying sensitive information to third-party trackers. It achieved a recall rate of 100\% and a precision rate of 99.4\%, outperforming
+Moreover, Li et al. \cite{li2015trackadvisor} introduced \emph{"TrackAdvisor"}, a system that
+employs machine learning to precisely detect HTTP requests containing sensitive information sent to third-party trackers.
+It achieved a recall rate of 100\% and a precision rate of 99.4\%, outperforming
 existing third-party tracking blacklists. The study found that 46\% of the websites in the Alexa Global Top 10,000 had at least
 one third-party tracker, with Google monitoring approximately 25\% of these popular websites. The research aimed to measure
 the pervasiveness of third-party tracking and raise awareness about its privacy risks.
 
-Additionally, Metwalley et al. \cite{metwalley2015unsupervised} published an unsupervised methodology that utilizes application-level traffic logs to automatically
-detect services engaged in tracking activities. The methodology is based on an algorithm that recognizes user identifiers exposed
-in URL queries within HTTP(S) transactions. The algorithm was validated using an artificial dataset created by visiting the top
-200 most popular websites according to the Alexa rank. The results were promising, with the algorithm identifying 34 previously
+Furthermore, Metwalley et al. \cite{metwalley2015unsupervised} released an unsupervised approach that leverages application-level
+traffic logs to autonomously identify services involved in tracking activities.
+The approach relies on an algorithm capable of detecting user identifiers revealed in URL queries during HTTP(S) transactions.
+To validate the algorithm, an artificial dataset was generated by visiting the top 200 most popular websites, as per the Alexa rank.
+The results were promising, with the algorithm identifying 34 previously
 unknown third-party trackers not found in existing blacklists. The analysis of the algorithm's output revealed privacy-related
 interactions, including scenarios suggesting the practice of Cookie Matching, where user activity information is shared across
 multiple third-party entities.
@@ -335,7 +337,7 @@ their approach to accurately identify web trackers based on HTTP request analysi
 of shared cookies across different domains, shedding light on the extent of privacy concerns associated with third-party tracking.
 
 In 2023, Raschke et al. \cite{raschke2023} introduced \emph{"t.ex-Graph"}, which is a representation that models the flow of data
-between websites in the form of a graph to identify Web trackers. They utilized a publicly available dataset
+between websites in the form of a graph to identify web trackers. They utilized an available dataset
 of HTTP/S requests collected from the Tranco \cite{pochat2018tranco} top 10K websites to extract the graph. Additionally, they defined a set of features
 which were used to train ML models on the dataset. The experimental results demonstrate an impressive accuracy rate of 88\% and the capability to identify previously unknown Web trackers.
 
@@ -354,8 +356,8 @@ crawl of the Quantcast United States top 32,000 homepages, labeling each node in
 on this dataset, Bau et al. achieved a weighted precision of 96.7\% with a false-positive rate of 0.5\%.
 
 Kaizer et al. \cite{kaizer2016towards} investigated machine-based tracking, focusing specifically on JavaScript-oriented tracking due to its widespread
-accessibility. They explored the use of coarse features related to JavaScript access, cookie access, and URL length subdomain
-information to create a classifier for identifying machine-based trackers. The classifier achieved an accuracy of 97.7\%.
+accessibility. They investigated the application of rudimentary attributes pertaining to JavaScript access, cookie access, and URL
+length subdomain details to construct a classifier for identifying trackers. The classifier achieved an accuracy of 97.7\%.
 The researchers applied this classifier to real-world datasets obtained from 30-minute website crawls, including websites targeting
 children and those targeting a popular audience. They found that over 85\% of all websites, including those targeting regulated groups
 like children, utilized machine-based tracking.

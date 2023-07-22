@@ -79,10 +79,10 @@ into its accuracy, precision, recall, F1-score, and other important measures.
   \caption{This figure unveils the loss and the accuracy of Model 1 regarding the training epoch. Both figures show a great convergence and generalization.}
 \end{figure}
 As shown in Fig-\ref{fig:lossM1}, the test loss obtained for Model 1 was \emph{0.019}, indicating the average dissimilarity between the 
-predicted and actual labels. A lower test loss indicates better model performance, suggesting that model 1 achieved good alignment
-with the true labels in the test dataset. Furthermore, as shown in Fig-\ref{fig:accM1}, the test accuracy of model 1 was determined
+predicted and actual labels. A lower test loss indicates better model performance, suggesting that Model 1 achieved good alignment
+with the true labels in the test dataset. Furthermore, as shown in Fig-\ref{fig:accM1}, the test accuracy of Model 1 was determined
 to be \emph{0.98}. This metric measures the proportion of correctly classified instances out of the total number of instances in
-the test dataset. With a high accuracy score of \emph{98\%}, model 1 demonstrates its proficiency in accurately classifying web
+the test dataset. With a high accuracy score of \emph{98\%}, Model 1 demonstrates its proficiency in accurately classifying web
 requests as either trackers or non-trackers.
 
 \begin{table}[ht!]
@@ -226,7 +226,8 @@ In summary, Model 2 exhibits high precision, recall, and F1-scores for both clas
 with a precision of 0.99 and a recall of 0.98, while also demonstrating the ability to identify trackers with a precision
 of 0.95 and a recall of 0.97. These results indicate the model's proficiency in distinguishing between tracker and non-tracker
 web requests. The classification report, along with the evaluation metrics, highlights the reliability and effectiveness of Model 2
-in detecting web trackers.
+in detecting web trackers. Interestingly, both of our models achieve a greater accuracy than the classifier proposed by Castel-Uroz et al.
+\cite{castell2020url}. We attribute this increase in accuracy to more contextual information provided in the feature vectors.
 
 \subsection{Limitations}
 In this section, we discuss the limitations of Model 1 and Model 2. While these models have demonstrated strong performance in several aspects, it is essential
@@ -313,7 +314,9 @@ approached that of the Brave crawl. This finding underscores the importance and 
 simultaneously, as it achieved the optimal performance in our real-time application.
 
 To summarize, our analysis unequivocally demonstrates the efficacy of employing machine learning models for real-time tracking
-request blocking, even approaching the performance level of the TPLs implemented in the Brave browser. The models successfully
+request blocking, even approaching the performance level of the TPLs implemented in the Brave browser. 
+Furthermore, it is essential to consider the effort invested in creating the Tracking Protection Lists. 
+The models demonstrated here can be trained and deployed within 15 minutes, while it is challenging to keep the lists up to date. The models successfully
 identify tracking requests in real-time, resulting in significantly reduced numbers of trackers, as evidenced by the plotted data.
 Moreover, our web extension provides superior privacy protection compared to using the Chrome browser without any extensions, evident
 in the drastic reduction in the number of requests, visited domains, and identified trackers. Consequently, we conclude that leveraging
